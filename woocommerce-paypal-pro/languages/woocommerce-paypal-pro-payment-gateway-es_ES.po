@@ -1,0 +1,142 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce PayPal Pro\n"
+"POT-Creation-Date: 2019-03-15 15:17+0600\n"
+"PO-Revision-Date: 2019-03-16 17:37+1000\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: es_ES\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: woo-paypal-pro-gateway-class.php:37 woo-paypal-pro-gateway-class.php:80
+msgid "Credit Card Payment"
+msgstr "Pago con tarjeta de crédito"
+
+#: woo-paypal-pro-gateway-class.php:50
+msgid "PayPal Pro"
+msgstr "PayPal Pro"
+
+#: woo-paypal-pro-gateway-class.php:51
+msgid "Allows Credit Card Payments via the PayPal Pro gateway."
+msgstr ""
+"Permite pagos con tarjeta de crédito a través de la pasarela PayPal Pro."
+
+#: woo-paypal-pro-gateway-class.php:65
+msgid "Enable/Disable"
+msgstr "Activar/Desactivar"
+
+#: woo-paypal-pro-gateway-class.php:67
+msgid "Enable PayPal Pro Gateway"
+msgstr "Activar PayPal Pro Gateway"
+
+#: woo-paypal-pro-gateway-class.php:71
+msgid "Sandbox Mode"
+msgstr "Modo de Sandbox"
+
+#: woo-paypal-pro-gateway-class.php:73
+msgid "Enable Sandbox Mode"
+msgstr "Activar el modo de sandbox"
+
+#: woo-paypal-pro-gateway-class.php:77
+msgid "Title"
+msgstr "Título"
+
+#: woo-paypal-pro-gateway-class.php:79
+msgid "The title for this checkout option."
+msgstr "El título para esta opción de pago."
+
+#: woo-paypal-pro-gateway-class.php:83
+msgid "Show CVV Hint"
+msgstr "Mostrar sugerencia de CVV"
+
+#: woo-paypal-pro-gateway-class.php:85
+msgid ""
+"Enable this option if you want to show a hint for the CVV field on the "
+"credit card checkout form"
+msgstr ""
+"Activar esta opción si deseas mostrar una sugerencia para el campo CVV en "
+"el formulario de pago con tarjeta de crédito"
+
+#: woo-paypal-pro-gateway-class.php:89
+msgid "PayPal Pro API Username"
+msgstr "Nombre de usuario de la API de PayPal Pro"
+
+#: woo-paypal-pro-gateway-class.php:91
+msgid "Your PayPal payments pro API username."
+msgstr "Tu nombre de usuario de la API de pagos de PayPal pro."
+
+#: woo-paypal-pro-gateway-class.php:95
+msgid "PayPal Pro API Password"
+msgstr "Contraseña de la API de PayPal Pro"
+
+#: woo-paypal-pro-gateway-class.php:97
+msgid "Your PayPal payments pro API password."
+msgstr "Tu contraseña de la API de pagos de PayPal pro."
+
+#: woo-paypal-pro-gateway-class.php:101
+msgid "PayPal Pro API Signature"
+msgstr "Firma de la API de PayPal Pro"
+
+#: woo-paypal-pro-gateway-class.php:103
+msgid "Your PayPal payments pro API signature."
+msgstr "Tu firma de la API de pagos de PayPal pro."
+
+#: woo-paypal-pro-gateway-class.php:111
+#, php-format
+msgid ""
+"%s gateway requires SSL certificate for better security. The <a href=\"%s"
+"\">force SSL option</a> is disabled on your site. Please ensure your server "
+"has a valid SSL certificate so you can enable the SSL option on your "
+"checkout page."
+msgstr ""
+"La pasarela de pago %s requiere un certificado de SSL para mejorar la "
+"seguridad. La <a href=\"%s\">opción de forzar SSL</a> está desactivada en "
+"tu sitio. Por favor, asegúrate de que tu servidor tiene un certificado SSL "
+"válido para que puedas activar la opción SSL en tu página de pago."
+
+#: woo-paypal-pro-gateway-class.php:123
+msgid "Credit card number you entered is invalid."
+msgstr "El número de tarjeta de crédito que has introducido no es válido."
+
+#: woo-paypal-pro-gateway-class.php:126
+msgid "Card type is not valid."
+msgstr "El tipo de tarjeta no es válido."
+
+#: woo-paypal-pro-gateway-class.php:129
+msgid "Card expiration date is not valid."
+msgstr "La fecha de caducidad de la tarjeta no es válida."
+
+#: woo-paypal-pro-gateway-class.php:132
+msgid ""
+"Card verification number (CVV) is not valid. You can find this number on "
+"your credit card."
+msgstr ""
+"El número de verificación de la tarjeta (CVV) no es válido. Puedes "
+"encontrar este número en tu tarjeta de crédito."
+
+#: woo-paypal-pro-gateway-class.php:150 woo-paypal-pro-gateway-class.php:153
+msgid "Card Number"
+msgstr "Número de tarjeta"
+
+#: woo-paypal-pro-gateway-class.php:157
+msgid "Card Type"
+msgstr "Tipo de tarjeta"
+
+#: woo-paypal-pro-gateway-class.php:167
+msgid "Expiration Date"
+msgstr "Fecha de caducidad"
+
+#: woo-paypal-pro-gateway-class.php:198 woo-paypal-pro-gateway-class.php:201
+msgid "Card Verification Number (CVV)"
+msgstr "El número de verificación de la tarjeta (CVV)"
+
+#: woo-paypal-pro-gateway-class.php:231
+msgid "(Transaction Error) something is wrong."
+msgstr "(Error de transacción) algo está mal."
