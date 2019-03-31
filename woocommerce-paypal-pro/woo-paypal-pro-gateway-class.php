@@ -49,101 +49,101 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	<p><?php _e( 'Allows Credit Card Payments via the PayPal Pro gateway.', 'woocommerce-paypal-pro-payment-gateway' ); ?></p>
 
 	<table class="form-table">
-	<?php
-	//Render the settings form according to what is specified in the init_form_fields() function
-	$this->generate_settings_html();
-	?>
-	</table>
 	    <?php
-	}
-
-	public function init_form_fields() {
-	    $this->form_fields = array(
-		'enabled'		 => array(
-		    'title'		 => __( 'Enable/Disable', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'checkbox',
-		    'label'		 => __( 'Enable PayPal Pro Gateway', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => 'yes'
-		),
-		'debug'			 => array(
-		    'title'		 => __( 'Sandbox Mode', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'checkbox',
-		    'label'		 => __( 'Enable Sandbox Mode', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => 'no'
-		),
-		'title'			 => array(
-		    'title'		 => __( 'Title', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'text',
-		    'description'	 => __( 'The title for this checkout option.', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => __( 'Credit Card Payment', 'woocommerce-paypal-pro-payment-gateway' )
-		),
-		'securitycodehint'	 => array(
-		    'title'		 => __( 'Show CVV Hint', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'checkbox',
-		    'label'		 => __( 'Enable this option if you want to show a hint for the CVV field on the credit card checkout form', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => 'no'
-		),
-		'paypalapiusername'	 => array(
-		    'title'		 => __( 'PayPal Pro API Username', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'text',
-		    'description'	 => __( 'Your PayPal payments pro API username.', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
-		),
-		'paypalapipassword'	 => array(
-		    'title'		 => __( 'PayPal Pro API Password', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'text',
-		    'description'	 => __( 'Your PayPal payments pro API password.', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
-		),
-		'paypalapisigniture'	 => array(
-		    'title'		 => __( 'PayPal Pro API Signature', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'textarea',
-		    'description'	 => __( 'Your PayPal payments pro API signature.', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
-		)
-	    );
-	}
-
-	function handle_admin_notice_msg() {
-	    if ( ! $this->usesandboxapi && get_option( 'woocommerce_force_ssl_checkout' ) == 'no' && $this->enabled == 'yes' ) {
-		echo '<div class="error"><p>' . sprintf( __( '%s gateway requires SSL certificate for better security. The <a href="%s">force SSL option</a> is disabled on your site. Please ensure your server has a valid SSL certificate so you can enable the SSL option on your checkout page.', 'woocommerce-paypal-pro-payment-gateway' ), $this->GATEWAYNAME, admin_url( 'admin.php?page=woocommerce_settings&tab=general' ) ) . '</p></div>';
-	    }
-	}
-
-	/*
-	 * Validates the fields specified in the payment_fields() function.
-	 */
-
-	public function validate_fields() {
-	    global $woocommerce;
-
-	    if ( ! WC_PP_PRO_Utility::is_valid_card_number( $_POST[ 'billing_credircard' ] ) ) {
-		wc_add_notice( __( 'Credit card number you entered is invalid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
-	    }
-	    if ( ! WC_PP_PRO_Utility::is_valid_card_type( $_POST[ 'billing_cardtype' ] ) ) {
-		wc_add_notice( __( 'Card type is not valid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
-	    }
-	    if ( ! WC_PP_PRO_Utility::is_valid_expiry( $_POST[ 'billing_expdatemonth' ], $_POST[ 'billing_expdateyear' ] ) ) {
-		wc_add_notice( __( 'Card expiration date is not valid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
-	    }
-	    if ( ! WC_PP_PRO_Utility::is_valid_cvv_number( $_POST[ 'billing_ccvnumber' ] ) ) {
-		wc_add_notice( __( 'Card verification number (CVV) is not valid. You can find this number on your credit card.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
-	    }
-	}
-
-	/*
-	 * Render the credit card fields on the checkout page
-	 */
-
-	public function payment_fields() {
-	    $payment_fields_overriden = apply_filters( 'wcpprog_before_rendering_payment_fields', '' );
-	    if ( ! empty( $payment_fields_overriden ) ) {
-		//The fields output has been overriden using custom code. So we don't need to display it anymore.
-		return;
-	    }
-
-	    $billing_credircard		 = isset( $_REQUEST[ 'billing_credircard' ] ) ? esc_attr( $_REQUEST[ 'billing_credircard' ] ) : '';
+	    //Render the settings form according to what is specified in the init_form_fields() function
+	    $this->generate_settings_html();
 	    ?>
+	</table>
+	<?php
+    }
+
+    public function init_form_fields() {
+	$this->form_fields = array(
+	    'enabled'		 => array(
+		'title'		 => __( 'Enable/Disable', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'checkbox',
+		'label'		 => __( 'Enable PayPal Pro Gateway', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => 'yes'
+	    ),
+	    'debug'			 => array(
+		'title'		 => __( 'Sandbox Mode', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'checkbox',
+		'label'		 => __( 'Enable Sandbox Mode', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => 'no'
+	    ),
+	    'title'			 => array(
+		'title'		 => __( 'Title', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'description'	 => __( 'The title for this checkout option.', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => __( 'Credit Card Payment', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
+	    'securitycodehint'	 => array(
+		'title'		 => __( 'Show CVV Hint', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'checkbox',
+		'label'		 => __( 'Enable this option if you want to show a hint for the CVV field on the credit card checkout form', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => 'no'
+	    ),
+	    'paypalapiusername'	 => array(
+		'title'		 => __( 'PayPal Pro API Username', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'description'	 => __( 'Your PayPal payments pro API username.', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
+	    'paypalapipassword'	 => array(
+		'title'		 => __( 'PayPal Pro API Password', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'description'	 => __( 'Your PayPal payments pro API password.', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
+	    'paypalapisigniture'	 => array(
+		'title'		 => __( 'PayPal Pro API Signature', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'textarea',
+		'description'	 => __( 'Your PayPal payments pro API signature.', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    )
+	);
+    }
+
+    function handle_admin_notice_msg() {
+	if ( ! $this->usesandboxapi && get_option( 'woocommerce_force_ssl_checkout' ) == 'no' && $this->enabled == 'yes' ) {
+	    echo '<div class="error"><p>' . sprintf( __( '%s gateway requires SSL certificate for better security. The <a href="%s">force SSL option</a> is disabled on your site. Please ensure your server has a valid SSL certificate so you can enable the SSL option on your checkout page.', 'woocommerce-paypal-pro-payment-gateway' ), $this->GATEWAYNAME, admin_url( 'admin.php?page=woocommerce_settings&tab=general' ) ) . '</p></div>';
+	}
+    }
+
+    /*
+     * Validates the fields specified in the payment_fields() function.
+     */
+
+    public function validate_fields() {
+	global $woocommerce;
+
+	if ( ! WC_PP_PRO_Utility::is_valid_card_number( $_POST[ 'billing_credircard' ] ) ) {
+	    wc_add_notice( __( 'Credit card number you entered is invalid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
+	}
+	if ( ! WC_PP_PRO_Utility::is_valid_card_type( $_POST[ 'billing_cardtype' ] ) ) {
+	    wc_add_notice( __( 'Card type is not valid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
+	}
+	if ( ! WC_PP_PRO_Utility::is_valid_expiry( $_POST[ 'billing_expdatemonth' ], $_POST[ 'billing_expdateyear' ] ) ) {
+	    wc_add_notice( __( 'Card expiration date is not valid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
+	}
+	if ( ! WC_PP_PRO_Utility::is_valid_cvv_number( $_POST[ 'billing_ccvnumber' ] ) ) {
+	    wc_add_notice( __( 'Card verification number (CVV) is not valid. You can find this number on your credit card.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
+	}
+    }
+
+    /*
+     * Render the credit card fields on the checkout page
+     */
+
+    public function payment_fields() {
+	$payment_fields_overriden = apply_filters( 'wcpprog_before_rendering_payment_fields', '' );
+	if ( ! empty( $payment_fields_overriden ) ) {
+	    //The fields output has been overriden using custom code. So we don't need to display it anymore.
+	    return;
+	}
+
+	$billing_credircard		 = isset( $_REQUEST[ 'billing_credircard' ] ) ? esc_attr( $_REQUEST[ 'billing_credircard' ] ) : '';
+	?>
 	<p class="form-row validate-required">
 	    <?php
 	    $card_number_field_placeholder	 = __( 'Card Number', 'woocommerce-paypal-pro-payment-gateway' );
@@ -181,21 +181,21 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	    <select name="billing_expdateyear">
 		<?php
 		$today				 = (int) date( 'Y', time() );
-		for ( $i = 0; $i < 12; $i ++  ) {
+		for ( $i = 0; $i < 12; $i ++ ) {
 		    ?>
 	    	<option value="<?php echo $today; ?>"><?php echo $today; ?></option>
 		    <?php
 		    $today ++;
 		}
 		?>
-	    </select>            
+	    </select>
 	</p>
 	<div class="clear"></div>
 	<p class="form-row form-row-first validate-required">
-	<?php
-	$cvv_field_placeholder	 = __( 'Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway' );
-	$cvv_field_placeholder	 = apply_filters( 'wcpprog_cvv_field_placeholder', $cvv_field_placeholder );
-	?>
+	    <?php
+	    $cvv_field_placeholder	 = __( 'Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway' );
+	    $cvv_field_placeholder	 = apply_filters( 'wcpprog_cvv_field_placeholder', $cvv_field_placeholder );
+	    ?>
 	    <label><?php _e( 'Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway' ); ?> <span class="required">*</span></label>
 	    <input class="input-text" type="text" size="4" maxlength="4" name="billing_ccvnumber" value="" placeholder="<?php echo $cvv_field_placeholder; ?>" />
 	</p>
@@ -213,10 +213,23 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	<?php
     }
 
-    public function process_payment( $order_id ) {
+    public function process_payment( $order_id, $skip_three_d_check = false ) {
 	global $woocommerce;
-	$this->order		 = new WC_Order( $order_id );
-	$gatewayRequestData	 = $this->create_paypal_request();
+	$this->order = new WC_Order( $order_id );
+
+	if ( ! $skip_three_d_check ) {
+	    $three_d_res = $this->do_three_d_secure_check();
+	    if ( ! $three_d_res ) {
+		return false;
+	    }
+	    if ( ! empty( $this->three_d_secure_redir_url ) ) {
+		return array(
+		    'result'	 => 'success',
+		    'redirect'	 => $this->three_d_secure_redir_url,
+		);
+	    }
+	}
+	$gatewayRequestData = $this->create_paypal_request();
 
 	if ( $gatewayRequestData AND $this->verify_paypal_payment( $gatewayRequestData ) ) {
 	    $this->do_order_complete_tasks();
@@ -305,12 +318,131 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	$enteries	 = explode( '&', $response[ 'body' ] );
 
 	foreach ( $enteries as $nvp ) {
-	    $pair				 = explode( '=', $nvp );
+	    $pair					 = explode( '=', $nvp );
 	    if ( count( $pair ) > 1 )
 		$result[ urldecode( $pair[ 0 ] ) ]	 = urldecode( $pair[ 1 ] );
 	}
 
 	return $result;
+    }
+
+    protected function do_three_d_secure_check() {
+
+	require('lib/centinel/CentinelClient.php');
+	require('lib/centinel/CentinelConfig.php');
+	require('lib/centinel/CentinelUtility.php');
+
+	$centinelClient = new CentinelClient;
+
+	$centinelClient->add( "MsgType", "cmpi_lookup" );
+	$centinelClient->add( "Version", CENTINEL_MSG_VERSION );
+	$centinelClient->add( "ProcessorId", CENTINEL_PROCESSOR_ID );
+	$centinelClient->add( "MerchantId", CENTINEL_MERCHANT_ID );
+	$centinelClient->add( "TransactionPwd", CENTINEL_TRANSACTION_PWD );
+	$centinelClient->add( "UserAgent", $_SERVER[ "HTTP_USER_AGENT" ] );
+	$centinelClient->add( "BrowserHeader", $_SERVER[ "HTTP_ACCEPT" ] );
+	$centinelClient->add( 'IPAddress', $_SERVER[ 'REMOTE_ADDR' ] );
+
+	// Standard cmpi_lookup fields
+	$centinelClient->add( 'OrderNumber', $this->order->get_order_number() );
+	$centinelClient->add( 'Amount', $this->order->get_total() * 100 );
+	$centinelClient->add( 'CurrencyCode', 840 );
+	$centinelClient->add( 'TransactionType', 'C' ); //https://en.wikipedia.org/wiki/ISO_4217#Active_codes
+	// Payer Authentication specific fields
+	$centinelClient->add( 'CardNumber', $_POST[ 'billing_credircard' ] );
+	$centinelClient->add( 'CardExpMonth', $_POST[ 'billing_expdatemonth' ] );
+	$centinelClient->add( 'CardExpYear', $_POST[ 'billing_expdateyear' ] );
+
+	$centinelClient->sendHttp( CENTINEL_MAPS_URL, CENTINEL_TIMEOUT_CONNECT, CENTINEL_TIMEOUT_READ );
+
+//	$req_body = array(
+//	    'MsgType'		 => 'cmpi_lookup', //must be 'cmpi_lookup'
+//	    'Version'		 => '1.7', // must be '1.7'
+//	    'ProcessorId'		 => '202', //settings
+//	    'MerchantId'		 => 'devCenterMerchant', //settings
+//	    'TransactionPwd'	 => '123456789', //settings
+//	    'TransactionType'	 => 'C', //must be 'C',
+//	    'Amount'		 => $this->order->get_total() * 100,
+//	    'CurrencyCode'		 => '840', //https://en.wikipedia.org/wiki/ISO_4217#Active_codes
+//	    'CardNumber'		 => $_POST[ 'billing_credircard' ],
+//	    'CardExpMonth'		 => $_POST[ 'billing_expdatemonth' ],
+//	    'CardExpYear'		 => $_POST[ 'billing_expdateyear' ],
+//	    'OrderNumber'		 => $this->order->get_order_number(),
+//	);
+//
+//	$req_str = '<CardinalMPI>';
+//	foreach ( $req_body as $name => $value ) {
+//	    $req_str = $req_str . "<" . ($name) . ">" . ($value) . "</" . ($name) . ">";
+//	}
+//	$req_str .= '</CardinalMPI>';
+//
+//	$req_str = "cmpi_msg=" . urlencode( $req_str );
+//
+//	$req = array(
+//	    'method'	 => "POST",
+//	    'blocking'	 => true,
+//	    'sslverify'	 => false,
+//	    'body'		 => $req_str,
+//	);
+//
+//	$response = wp_remote_post( 'https://centineltest.cardinalcommerce.com/maps/txns.asp', $req );
+
+	$enrolled	 = $centinelClient->getValue( "Enrolled" );
+	$errorNo	 = $centinelClient->getValue( "ErrorNo" );
+	$errorDesc	 = $centinelClient->getValue( "ErrorDesc" );
+	$ACSUrl		 = $centinelClient->getValue( "ACSUrl" );
+	$errMsg		 = '';
+
+	if ( (strcasecmp( 'Y', $enrolled ) == 0) && (strcasecmp( '0', $errorNo ) == 0) ) {
+	    // Proceed with redirect 
+	    //$errMsg = "Proceed with redirect (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
+	} else if ( (strcasecmp( 'N', $enrolled ) == 0) && (strcasecmp( '0', $errorNo ) == 0) ) {
+	    // Card not enrolled, continue to authorization 
+	    //$errMsg = "Card not enrolled, continue to authorization (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
+	} else if ( (strcasecmp( 'U', $enrolled ) == 0) && (strcasecmp( '0', $errorNo ) == 0) ) {
+	    // Authentication unavailable, continue to authorization 
+	    //$errMsg = "Authentication unavailable, continue to authorization (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
+	} else {
+	    // Authentication unable to complete, continue to authorization 
+	    //$errMsg = "Authentication unable to complete, continue to authorization (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
+	} // end processing logic
+
+	if ( ! empty( $errMsg ) ) {
+	    wc_add_notice( json_encode( $centinelClient->response ), 'error' );
+	    return false;
+	}
+	if ( empty( $ACSUrl ) ) {
+	    return true;
+	}
+
+	$payload	 = $centinelClient->getValue( "Payload" );
+	$trans_id	 = $centinelClient->getValue( "TransactionId" );
+
+	$term_url = add_query_arg( array(
+	    'wc_pp_pro_action' => 'do_auth',
+	), get_site_url( null, '/' ) );
+
+	$redir_data = array(
+	    'url'		 => $ACSUrl,
+	    'PaReq'		 => $payload,
+	    'TermUrl'	 => $term_url,
+	    'MD'		 => $this->order->get_order_number(),
+	    'TransactionId'	 => $trans_id,
+	    '_POST'		 => $_POST,
+	    'checkout_url'	 => wc_get_checkout_url(),
+	);
+
+	$trans_name = sprintf( 'wp_pp_pro_%d', $this->order->get_order_number() );
+
+	set_transient( $trans_name, $redir_data, 3600 * 2 );
+
+	$redir_url = add_query_arg( array(
+	    'wc_pp_pro_action'	 => '3ds_check',
+	    'wc_pp_pro_order'	 => $this->order->get_order_number(),
+	), get_site_url( null, '/' ) );
+
+	$this->three_d_secure_redir_url = $redir_url;
+	return true;
     }
 
     protected function create_paypal_request() {
