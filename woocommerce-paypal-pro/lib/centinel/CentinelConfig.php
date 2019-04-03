@@ -54,17 +54,7 @@
 
 
 define( "CENTINEL_MSG_VERSION", "1.7" );
-define( "CENTINEL_PROCESSOR_ID", "202" );
-define( "CENTINEL_MERCHANT_ID", "devCenterMerchant" );
-define( "CENTINEL_TRANSACTION_PWD", "123456789" );
-
-define( "CENTINEL_MAPS_URL", "https://centineltest.cardinalcommerce.com/maps/txns.asp" );
 
 // Check with Cardinal to determine appropriate Timeout period for this payment type
-define( "CENTINEL_TIMEOUT_CONNECT", "5000" );
+define( "CENTINEL_TIMEOUT_CONNECT", "10000" );
 define( "CENTINEL_TIMEOUT_READ", "15000" );
-
-define( "CENTINEL_AUTHENTICATION_MESSAGING", "For your security, please fill out the form below to complete your order.</b><br/>Do not click the refresh or back button or this transaction may be interrupted or cancelled." );
-
-define( "CENTINEL_MERCHANT_LOGO", ".." . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "merchant_logo.gif" );
-?>

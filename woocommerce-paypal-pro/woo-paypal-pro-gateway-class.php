@@ -100,7 +100,34 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'type'		 => 'textarea',
 		'description'	 => __( 'Your PayPal payments pro API signature.', 'woocommerce-paypal-pro-payment-gateway' ),
 		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
-	    )
+	    ),
+	    '3ds_enabled'		 => array(
+		'title'		 => __( '3D Secure', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'checkbox',
+		'label'		 => __( 'Enable 3D Secure', 'woocommerce-paypal-pro-payment-gateway' ),
+		'description'	 => __( 'Enable 3D Secure functionality. You need to get credentials from Centinel and fill those in below.', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => 'no'
+	    ),
+	    '3ds_merch_id'		 => array(
+		'title'		 => __( 'Merchant ID (MID)', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
+	    '3ds_proc_id'		 => array(
+		'title'		 => __( 'Processor ID (PID)', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
+	    'trans_pass'		 => array(
+		'title'		 => __( 'Transaction Password', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
+	    'trans_url'		 => array(
+		'title'		 => __( 'Transaction URL', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
 	);
     }
 
@@ -217,7 +244,9 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 
 	$this->order = new WC_Order( $order_id );
 
-	if ( ! $skip_three_d_check ) {
+	$three_d_enabled = $this->settings[ '3ds_enabled' ];
+
+	if ( $three_d_enabled === 'yes' && ! $skip_three_d_check ) {
 	    $three_d_res = $this->do_three_d_secure_check();
 	    if ( ! $three_d_res ) {
 		return false;
@@ -260,8 +289,11 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     protected function do_order_complete_tasks() {
 	global $woocommerce;
 
-	if ( $this->order->status == 'completed' )
+	$status = $this->order->get_status();
+
+	if ( $status == 'completed' ) {
 	    return;
+	}
 
 	$this->order->payment_complete();
 	$woocommerce->cart->empty_cart();
@@ -327,41 +359,43 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     }
 
     protected function do_three_d_secure_check() {
-
-	require('lib/centinel/CentinelClient.php');
-	require('lib/centinel/CentinelConfig.php');
-	require('lib/centinel/CentinelUtility.php');
+	require_once('inc/woo-paypal-pro-3ds-class.php');
+	WC_Paypal_Pro_3DS::get_centinel_lib();
 
 	$centinelClient = new CentinelClient;
+
+	$curr		 = get_woocommerce_currency();
+	$curr_code	 = WC_Paypal_Pro_Utils::get_currency_code_numeric( $curr );
+
+	$amount		 = $this->order->get_total();
+	$amount_cents	 = WC_Paypal_Pro_Utils::get_amount_in_cents( $amount, $curr );
 
 	$centinelClient->add( "MsgType", "cmpi_lookup" );
 	$centinelClient->add( "Version", CENTINEL_MSG_VERSION );
 	$centinelClient->add( "ProcessorId", CENTINEL_PROCESSOR_ID );
 	$centinelClient->add( "MerchantId", CENTINEL_MERCHANT_ID );
 	$centinelClient->add( "TransactionPwd", CENTINEL_TRANSACTION_PWD );
-//	$centinelClient->add( "UserAgent", $_SERVER[ "HTTP_USER_AGENT" ] );
-//	$centinelClient->add( "BrowserHeader", $_SERVER[ "HTTP_ACCEPT" ] );
-//	$centinelClient->add( 'IPAddress', $_SERVER[ 'REMOTE_ADDR' ] );
-	// Standard cmpi_lookup fields
+	$centinelClient->add( "UserAgent", $_SERVER[ "HTTP_USER_AGENT" ] );
+	$centinelClient->add( "BrowserHeader", $_SERVER[ "HTTP_ACCEPT" ] );
+	$centinelClient->add( 'IPAddress', $_SERVER[ 'REMOTE_ADDR' ] );
+
 	$centinelClient->add( 'OrderNumber', $this->order->get_order_number() );
-	$centinelClient->add( 'Amount', $this->order->get_total() * 100 );
-	$centinelClient->add( 'CurrencyCode', 840 ); //https://en.wikipedia.org/wiki/ISO_4217#Active_codes
+	$centinelClient->add( 'Amount', $amount_cents );
+	$centinelClient->add( 'CurrencyCode', $curr_code );
 	$centinelClient->add( 'TransactionType', 'C' );
-
-	$centinelClient->add( 'BillingFirstName', $this->order->billing_first_name );
-	$centinelClient->add( 'BillingLastName', $this->order->billing_last_name );
-	$centinelClient->add( 'BillingAddress1', $_POST[ 'billing_address1' ] );
-	$centinelClient->add( 'BillingAddress2', $_POST[ 'billing_address2' ] );
-	$centinelClient->add( 'BillingCity', $this->order->billing_city );
-	$centinelClient->add( 'BillingState', $this->order->billing_state );
-	$centinelClient->add( 'BillingPostalCode', $this->order->billing_postcode );
-	$centinelClient->add( 'BillingCountryCode', $this->order->billing_country );
-	$centinelClient->add( 'BillingPhone', $this->order->billing_phone );
-	$centinelClient->add( 'EMail', $this->order->billing_email );
-
 	$centinelClient->add( 'TransactionMode', 'S' );
 
-	// Payer Authentication specific fields
+	$centinelClient->add( 'BillingFirstName', $this->order->get_billing_first_name() );
+	$centinelClient->add( 'BillingLastName', $this->order->get_billing_last_name() );
+	$centinelClient->add( 'BillingAddress1', $this->order->get_billing_address_1() );
+	$centinelClient->add( 'BillingAddress2', $this->order->get_billing_address_2() );
+	$centinelClient->add( 'BillingCity', $this->order->get_billing_city() );
+	$centinelClient->add( 'BillingState', $this->order->get_billing_state() );
+	$centinelClient->add( 'BillingPostalCode', $this->order->get_billing_postcode() );
+	$centinelClient->add( 'BillingCountryCode', $this->order->get_billing_country() );
+	$centinelClient->add( 'BillingPhone', $this->order->get_billing_phone() );
+	$centinelClient->add( 'EMail', $this->order->get_billing_email() );
+
 	$expMonth = $_POST[ 'billing_expdatemonth' ];
 	if ( strlen( $expMonth ) === 1 ) {
 	    $expMonth = '0' . $expMonth;
