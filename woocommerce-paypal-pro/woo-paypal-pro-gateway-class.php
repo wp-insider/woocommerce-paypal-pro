@@ -365,10 +365,10 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	$centinelClient = new CentinelClient;
 
 	$curr		 = get_woocommerce_currency();
-	$curr_code	 = WC_Paypal_Pro_Utils::get_currency_code_numeric( $curr );
+	$curr_code	 = WC_PP_PRO_Utility::get_currency_code_numeric( $curr );
 
 	$amount		 = $this->order->get_total();
-	$amount_cents	 = WC_Paypal_Pro_Utils::get_amount_in_cents( $amount, $curr );
+	$amount_cents	 = WC_PP_PRO_Utility::get_amount_in_cents( $amount, $curr );
 
 	$centinelClient->add( "MsgType", "cmpi_lookup" );
 	$centinelClient->add( "Version", CENTINEL_MSG_VERSION );
