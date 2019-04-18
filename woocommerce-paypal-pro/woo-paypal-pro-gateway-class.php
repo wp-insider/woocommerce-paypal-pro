@@ -488,6 +488,8 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     }
 
     protected function create_paypal_request() {
+        //API Reference - https://developer.paypal.com/docs/classic/api/merchant/DoDirectPayment_API_Operation_NVP/
+        
 	if ( $this->order AND $this->order != null ) {
 	    $req = array(
 		'PAYMENTACTION'	 => $this->PAYPAL_NVP_PAYMENTACTION,
@@ -497,12 +499,20 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'USER'		 => $this->apiusername,
 		'SIGNATURE'	 => $this->apisigniture,
 		'AMT'		 => $this->order->get_total(),
-		'FIRSTNAME'	 => $this->order->billing_first_name,
-		'LASTNAME'	 => $this->order->billing_last_name,
-		'CITY'		 => $this->order->billing_city,
-		'STATE'		 => $this->order->billing_state,
-		'ZIP'		 => $this->order->billing_postcode,
-		'COUNTRYCODE'	 => $this->order->billing_country,
+		'FIRSTNAME'	 => $this->order->get_billing_first_name(),
+		'LASTNAME'	 => $this->order->get_billing_last_name(),
+                'STREET'         => $this->order->get_billing_address_1(),
+		'CITY'		 => $this->order->get_billing_city(),
+		'STATE'		 => $this->order->get_billing_state(),
+		'ZIP'		 => $this->order->get_billing_postcode(),
+		'COUNTRYCODE'	 => $this->order->get_billing_country(),
+		'SHIPTONAME'	 => $this->order->get_shipping_first_name() . " " . $this->order->get_shipping_last_name(),
+		'SHIPTOSTREET'	 => $this->order->get_shipping_address_1(),
+                'SHIPTOSTREET2'  => $this->order->get_shipping_address_2(),
+		'SHIPTOCITY'	 => $this->order->get_shipping_city(),
+		'SHIPTOSTATE'	 => $this->order->get_shipping_state(),
+		'SHIPTOZIP'	 => $this->order->get_shipping_postcode(),
+		'SHIPTOCOUNTRY'	 => $this->order->get_shipping_country(),                
 		'IPADDRESS'	 => $_SERVER[ 'REMOTE_ADDR' ],
 		'CREDITCARDTYPE' => $_POST[ 'billing_cardtype' ],
 		'ACCT'		 => $_POST[ 'billing_credircard' ],
