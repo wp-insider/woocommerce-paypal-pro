@@ -370,14 +370,18 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	$amount		 = $this->order->get_total();
 	$amount_cents	 = WC_PP_PRO_Utility::get_amount_in_cents( $amount, $curr );
 
+	$ip_addr	 = filter_input( INPUT_SERVER, 'REMOTE_ADDR', FILTER_SANITIZE_STRING );
+	$user_agent	 = filter_input( INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING );
+	$browser_header	 = filter_input( INPUT_SERVER, 'HTTP_ACCEPT', FILTER_SANITIZE_STRING );
+
 	$centinelClient->add( "MsgType", "cmpi_lookup" );
 	$centinelClient->add( "Version", CENTINEL_MSG_VERSION );
 	$centinelClient->add( "ProcessorId", CENTINEL_PROCESSOR_ID );
 	$centinelClient->add( "MerchantId", CENTINEL_MERCHANT_ID );
 	$centinelClient->add( "TransactionPwd", CENTINEL_TRANSACTION_PWD );
-	$centinelClient->add( "UserAgent", $_SERVER[ "HTTP_USER_AGENT" ] );
-	$centinelClient->add( "BrowserHeader", $_SERVER[ "HTTP_ACCEPT" ] );
-	$centinelClient->add( 'IPAddress', $_SERVER[ 'REMOTE_ADDR' ] );
+	$centinelClient->add( "UserAgent", $user_agent );
+	$centinelClient->add( "BrowserHeader", $browser_header );
+	$centinelClient->add( 'IPAddress', $ip_addr );
 
 	$centinelClient->add( 'OrderNumber', $this->order->get_order_number() );
 	$centinelClient->add( 'Amount', $amount_cents );
