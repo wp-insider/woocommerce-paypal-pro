@@ -214,7 +214,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     }
 
     public function process_payment( $order_id, $skip_three_d_check = false ) {
-
+	global $woocommerce;
 	$this->order = new WC_Order( $order_id );
 
 	if ( ! $skip_three_d_check ) {
@@ -339,52 +339,53 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	$centinelClient->add( "ProcessorId", CENTINEL_PROCESSOR_ID );
 	$centinelClient->add( "MerchantId", CENTINEL_MERCHANT_ID );
 	$centinelClient->add( "TransactionPwd", CENTINEL_TRANSACTION_PWD );
-//	$centinelClient->add( "UserAgent", $_SERVER[ "HTTP_USER_AGENT" ] );
-//	$centinelClient->add( "BrowserHeader", $_SERVER[ "HTTP_ACCEPT" ] );
-//	$centinelClient->add( 'IPAddress', $_SERVER[ 'REMOTE_ADDR' ] );
+	$centinelClient->add( "UserAgent", $_SERVER[ "HTTP_USER_AGENT" ] );
+	$centinelClient->add( "BrowserHeader", $_SERVER[ "HTTP_ACCEPT" ] );
+	$centinelClient->add( 'IPAddress', $_SERVER[ 'REMOTE_ADDR' ] );
+
 	// Standard cmpi_lookup fields
 	$centinelClient->add( 'OrderNumber', $this->order->get_order_number() );
 	$centinelClient->add( 'Amount', $this->order->get_total() * 100 );
-	$centinelClient->add( 'CurrencyCode', 840 ); //https://en.wikipedia.org/wiki/ISO_4217#Active_codes
-	$centinelClient->add( 'TransactionType', 'C' );
-
-	$centinelClient->add( 'BillingFirstName', $this->order->billing_first_name );
-	$centinelClient->add( 'BillingLastName', $this->order->billing_last_name );
-	$centinelClient->add( 'BillingAddress1', $_POST[ 'billing_address1' ] );
-	$centinelClient->add( 'BillingAddress2', $_POST[ 'billing_address2' ] );
-	$centinelClient->add( 'BillingCity', $this->order->billing_city );
-	$centinelClient->add( 'BillingState', $this->order->billing_state );
-	$centinelClient->add( 'BillingPostalCode', $this->order->billing_postcode );
-	$centinelClient->add( 'BillingCountryCode', $this->order->billing_country );
-	$centinelClient->add( 'BillingPhone', $this->order->billing_phone );
-	$centinelClient->add( 'EMail', $this->order->billing_email );
-
-	$centinelClient->add( 'TransactionMode', 'S' );
-
+	$centinelClient->add( 'CurrencyCode', 840 );
+	$centinelClient->add( 'TransactionType', 'C' ); //https://en.wikipedia.org/wiki/ISO_4217#Active_codes
 	// Payer Authentication specific fields
-	$expMonth = $_POST[ 'billing_expdatemonth' ];
-	if ( strlen( $expMonth ) === 1 ) {
-	    $expMonth = '0' . $expMonth;
-	}
 	$centinelClient->add( 'CardNumber', $_POST[ 'billing_credircard' ] );
-	$centinelClient->add( 'CardExpMonth', $expMonth );
+	$centinelClient->add( 'CardExpMonth', $_POST[ 'billing_expdatemonth' ] );
 	$centinelClient->add( 'CardExpYear', $_POST[ 'billing_expdateyear' ] );
 
-	//build items list
-//	$i = 1;
-//	foreach ( $this->order->get_items() as $item_id => $item_data ) {
-//	    $product	 = $item_data->get_product();
-//	    $product_name	 = $product->get_name();
-//	    $item_quantity	 = $item_data->get_quantity();
-//	    $item_price	 = $product->get_price();
-//	    $centinelClient->add( 'Item_Name_' . $i, $product_name );
-//	    $centinelClient->add( 'Item_Quantity_' . $i, $item_quantity );
-//	    $centinelClient->add( 'Item_Price_' . $i, $item_price * 100 );
-//	}
-	//wc_add_notice( json_encode( $centinelClient->request ) );
-	//return false;
-
 	$centinelClient->sendHttp( CENTINEL_MAPS_URL, CENTINEL_TIMEOUT_CONNECT, CENTINEL_TIMEOUT_READ );
+
+//	$req_body = array(
+//	    'MsgType'		 => 'cmpi_lookup', //must be 'cmpi_lookup'
+//	    'Version'		 => '1.7', // must be '1.7'
+//	    'ProcessorId'		 => '202', //settings
+//	    'MerchantId'		 => 'devCenterMerchant', //settings
+//	    'TransactionPwd'	 => '123456789', //settings
+//	    'TransactionType'	 => 'C', //must be 'C',
+//	    'Amount'		 => $this->order->get_total() * 100,
+//	    'CurrencyCode'		 => '840', //https://en.wikipedia.org/wiki/ISO_4217#Active_codes
+//	    'CardNumber'		 => $_POST[ 'billing_credircard' ],
+//	    'CardExpMonth'		 => $_POST[ 'billing_expdatemonth' ],
+//	    'CardExpYear'		 => $_POST[ 'billing_expdateyear' ],
+//	    'OrderNumber'		 => $this->order->get_order_number(),
+//	);
+//
+//	$req_str = '<CardinalMPI>';
+//	foreach ( $req_body as $name => $value ) {
+//	    $req_str = $req_str . "<" . ($name) . ">" . ($value) . "</" . ($name) . ">";
+//	}
+//	$req_str .= '</CardinalMPI>';
+//
+//	$req_str = "cmpi_msg=" . urlencode( $req_str );
+//
+//	$req = array(
+//	    'method'	 => "POST",
+//	    'blocking'	 => true,
+//	    'sslverify'	 => false,
+//	    'body'		 => $req_str,
+//	);
+//
+//	$response = wp_remote_post( 'https://centineltest.cardinalcommerce.com/maps/txns.asp', $req );
 
 	$enrolled	 = $centinelClient->getValue( "Enrolled" );
 	$errorNo	 = $centinelClient->getValue( "ErrorNo" );
@@ -393,20 +394,18 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	$errMsg		 = '';
 
 	if ( (strcasecmp( 'Y', $enrolled ) == 0) && (strcasecmp( '0', $errorNo ) == 0) ) {
-	    // Proceed with redirect
+	    // Proceed with redirect 
 	    //$errMsg = "Proceed with redirect (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
 	} else if ( (strcasecmp( 'N', $enrolled ) == 0) && (strcasecmp( '0', $errorNo ) == 0) ) {
-	    // Card not enrolled, continue to authorization
-	    $errMsg = "Card not enrolled, continue to authorization (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
+	    // Card not enrolled, continue to authorization 
+	    //$errMsg = "Card not enrolled, continue to authorization (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
 	} else if ( (strcasecmp( 'U', $enrolled ) == 0) && (strcasecmp( '0', $errorNo ) == 0) ) {
-	    // Authentication unavailable, continue to authorization
-	    $errMsg = "Authentication unavailable, continue to authorization (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
+	    // Authentication unavailable, continue to authorization 
+	    //$errMsg = "Authentication unavailable, continue to authorization (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
 	} else {
-	    // Authentication unable to complete, continue to authorization
-	    $errMsg = "Authentication unable to complete, continue to authorization (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
+	    // Authentication unable to complete, continue to authorization 
+	    //$errMsg = "Authentication unable to complete, continue to authorization (ErrorNo: [{$errorNo}], ErrorDesc: [{$errorDesc}])";
 	} // end processing logic
-//	wc_add_notice( json_encode( $centinelClient->response ) );
-//	return false;
 
 	if ( ! empty( $errMsg ) ) {
 	    wc_add_notice( json_encode( $centinelClient->response ), 'error' );
@@ -418,7 +417,6 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 
 	$payload	 = $centinelClient->getValue( "Payload" );
 	$trans_id	 = $centinelClient->getValue( "TransactionId" );
-	$order_id	 = $centinelClient->getValue( "OrderId" );
 
 	$term_url = add_query_arg( array(
 	    'wc_pp_pro_action' => 'do_auth',
@@ -430,15 +428,13 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	    'TermUrl'	 => $term_url,
 	    'MD'		 => $this->order->get_order_number(),
 	    'TransactionId'	 => $trans_id,
-	    'Enrolled'	 => $enrolled,
-	    'OrderId'	 => $order_id,
 	    '_POST'		 => $_POST,
 	    'checkout_url'	 => wc_get_checkout_url(),
 	);
 
 	$trans_name = sprintf( 'wp_pp_pro_%d', $this->order->get_order_number() );
 
-	set_transient( $trans_name, json_encode( $redir_data ), 3600 * 2 );
+	set_transient( $trans_name, $redir_data, 3600 * 2 );
 
 	$redir_url = add_query_arg( array(
 	    'wc_pp_pro_action'	 => '3ds_check',
@@ -449,15 +445,11 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	return true;
     }
 
-    public function set_additional_paypal_req_fields( $fields ) {
-	$this->pp_req_additional_fields = $fields;
-    }
-
     protected function create_paypal_request() {
         //API Reference - https://developer.paypal.com/docs/classic/api/merchant/DoDirectPayment_API_Operation_NVP/
         
 	if ( $this->order AND $this->order != null ) {
-	    $req = array(
+	    return array(
 		'PAYMENTACTION'	 => $this->PAYPAL_NVP_PAYMENTACTION,
 		'VERSION'	 => $this->PAYPAL_NVP_API_VERSION,
 		'METHOD'	 => $this->PAYPAL_NVP_METHOD,
@@ -489,10 +481,6 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'INVNUM'	 => $this->order->get_order_number(),
 		'BUTTONSOURCE'	 => 'TipsandTricks_SP',
 	    );
-	    if ( isset( $this->pp_req_additional_fields ) ) {
-		$req = array_merge( $req, $this->pp_req_additional_fields );
-	    }
-	    return $req;
 	}
 	return false;
     }

@@ -56,7 +56,6 @@ if ( ! class_exists( 'WC_Paypal_Pro_Gateway_Addon' ) ) {
 	    //Runs when plugins_loaded action gets fired
 	    include_once('woo-paypal-pro-gateway-class.php');
 	    add_filter( 'woocommerce_payment_gateways', array( &$this, 'init_paypal_pro_gateway' ) );
-
 	    //check if we need to handle 3D Secure-related actions
 	    $wc_pp_pro_action = filter_input( INPUT_GET, 'wc_pp_pro_action', FILTER_SANITIZE_STRING );
 

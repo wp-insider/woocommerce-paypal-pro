@@ -60,6 +60,8 @@ define( "CENTINEL_TRANSACTION_PWD", "123456789" );
 
 define( "CENTINEL_MAPS_URL", "https://centineltest.cardinalcommerce.com/maps/txns.asp" );
 
+define( "CENTINEL_TERM_URL", "https://desertfox.top/miniserv/samplecode/CardinalConsumerAuthentication/ccAuthenticate.php" );
+
 // Check with Cardinal to determine appropriate Timeout period for this payment type
 define( "CENTINEL_TIMEOUT_CONNECT", "5000" );
 define( "CENTINEL_TIMEOUT_READ", "15000" );
