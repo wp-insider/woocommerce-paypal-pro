@@ -108,7 +108,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	if ( ! $this->usesandboxapi && get_option( 'woocommerce_force_ssl_checkout' ) == 'no' && $this->enabled == 'yes' ) {
 	    $greater_than_33 = version_compare( '3.3', WC_VERSION );
 	    $wc_settings_url = admin_url( sprintf( 'admin.php?page=wc-settings&tab=%s', $greater_than_33 ? 'advanced' : 'checkout' ) );
-	    echo '<div class="error"><p>' . sprintf( __( '%s gateway requires SSL certificate for better security. The <a href="%s">force SSL option</a> is disabled on your site. Please ensure your server has a valid SSL certificate so you can enable the SSL option on your checkout page.', 'woocommerce-paypal-pro-payment-gateway' ), $this->GATEWAYNAME, $wc_settings_url ) . '</p></div>';
+	    echo '<div class="error"><p>' . sprintf( __( '%s gateway requires SSL certificate for better security. The <a href="%s">Secure checkout</a> option is disabled on your site. Please ensure your server has a valid SSL certificate so you can enable the SSL option on your checkout page.', 'woocommerce-paypal-pro-payment-gateway' ), $this->GATEWAYNAME, $wc_settings_url ) . '</p></div>';
 	}
     }
 
