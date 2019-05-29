@@ -49,101 +49,103 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	<p><?php _e( 'Allows Credit Card Payments via the PayPal Pro gateway.', 'woocommerce-paypal-pro-payment-gateway' ); ?></p>
 
 	<table class="form-table">
-	<?php
-	//Render the settings form according to what is specified in the init_form_fields() function
-	$this->generate_settings_html();
-	?>
-	</table>
 	    <?php
-	}
-
-	public function init_form_fields() {
-	    $this->form_fields = array(
-		'enabled'		 => array(
-		    'title'		 => __( 'Enable/Disable', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'checkbox',
-		    'label'		 => __( 'Enable PayPal Pro Gateway', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => 'yes'
-		),
-		'debug'			 => array(
-		    'title'		 => __( 'Sandbox Mode', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'checkbox',
-		    'label'		 => __( 'Enable Sandbox Mode', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => 'no'
-		),
-		'title'			 => array(
-		    'title'		 => __( 'Title', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'text',
-		    'description'	 => __( 'The title for this checkout option.', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => __( 'Credit Card Payment', 'woocommerce-paypal-pro-payment-gateway' )
-		),
-		'securitycodehint'	 => array(
-		    'title'		 => __( 'Show CVV Hint', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'checkbox',
-		    'label'		 => __( 'Enable this option if you want to show a hint for the CVV field on the credit card checkout form', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => 'no'
-		),
-		'paypalapiusername'	 => array(
-		    'title'		 => __( 'PayPal Pro API Username', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'text',
-		    'description'	 => __( 'Your PayPal payments pro API username.', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
-		),
-		'paypalapipassword'	 => array(
-		    'title'		 => __( 'PayPal Pro API Password', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'text',
-		    'description'	 => __( 'Your PayPal payments pro API password.', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
-		),
-		'paypalapisigniture'	 => array(
-		    'title'		 => __( 'PayPal Pro API Signature', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'type'		 => 'textarea',
-		    'description'	 => __( 'Your PayPal payments pro API signature.', 'woocommerce-paypal-pro-payment-gateway' ),
-		    'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
-		)
-	    );
-	}
-
-	function handle_admin_notice_msg() {
-	    if ( ! $this->usesandboxapi && get_option( 'woocommerce_force_ssl_checkout' ) == 'no' && $this->enabled == 'yes' ) {
-		echo '<div class="error"><p>' . sprintf( __( '%s gateway requires SSL certificate for better security. The <a href="%s">force SSL option</a> is disabled on your site. Please ensure your server has a valid SSL certificate so you can enable the SSL option on your checkout page.', 'woocommerce-paypal-pro-payment-gateway' ), $this->GATEWAYNAME, admin_url( 'admin.php?page=woocommerce_settings&tab=general' ) ) . '</p></div>';
-	    }
-	}
-
-	/*
-	 * Validates the fields specified in the payment_fields() function.
-	 */
-
-	public function validate_fields() {
-	    global $woocommerce;
-
-	    if ( ! WC_PP_PRO_Utility::is_valid_card_number( $_POST[ 'billing_credircard' ] ) ) {
-		wc_add_notice( __( 'Credit card number you entered is invalid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
-	    }
-	    if ( ! WC_PP_PRO_Utility::is_valid_card_type( $_POST[ 'billing_cardtype' ] ) ) {
-		wc_add_notice( __( 'Card type is not valid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
-	    }
-	    if ( ! WC_PP_PRO_Utility::is_valid_expiry( $_POST[ 'billing_expdatemonth' ], $_POST[ 'billing_expdateyear' ] ) ) {
-		wc_add_notice( __( 'Card expiration date is not valid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
-	    }
-	    if ( ! WC_PP_PRO_Utility::is_valid_cvv_number( $_POST[ 'billing_ccvnumber' ] ) ) {
-		wc_add_notice( __( 'Card verification number (CVV) is not valid. You can find this number on your credit card.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
-	    }
-	}
-
-	/*
-	 * Render the credit card fields on the checkout page
-	 */
-
-	public function payment_fields() {
-	    $payment_fields_overriden = apply_filters( 'wcpprog_before_rendering_payment_fields', '' );
-	    if ( ! empty( $payment_fields_overriden ) ) {
-		//The fields output has been overriden using custom code. So we don't need to display it anymore.
-		return;
-	    }
-
-	    $billing_credircard		 = isset( $_REQUEST[ 'billing_credircard' ] ) ? esc_attr( $_REQUEST[ 'billing_credircard' ] ) : '';
+	    //Render the settings form according to what is specified in the init_form_fields() function
+	    $this->generate_settings_html();
 	    ?>
+	</table>
+	<?php
+    }
+
+    public function init_form_fields() {
+	$this->form_fields = array(
+	    'enabled'		 => array(
+		'title'		 => __( 'Enable/Disable', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'checkbox',
+		'label'		 => __( 'Enable PayPal Pro Gateway', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => 'yes'
+	    ),
+	    'debug'			 => array(
+		'title'		 => __( 'Sandbox Mode', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'checkbox',
+		'label'		 => __( 'Enable Sandbox Mode', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => 'no'
+	    ),
+	    'title'			 => array(
+		'title'		 => __( 'Title', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'description'	 => __( 'The title for this checkout option.', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => __( 'Credit Card Payment', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
+	    'securitycodehint'	 => array(
+		'title'		 => __( 'Show CVV Hint', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'checkbox',
+		'label'		 => __( 'Enable this option if you want to show a hint for the CVV field on the credit card checkout form', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => 'no'
+	    ),
+	    'paypalapiusername'	 => array(
+		'title'		 => __( 'PayPal Pro API Username', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'description'	 => __( 'Your PayPal payments pro API username.', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
+	    'paypalapipassword'	 => array(
+		'title'		 => __( 'PayPal Pro API Password', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'text',
+		'description'	 => __( 'Your PayPal payments pro API password.', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    ),
+	    'paypalapisigniture'	 => array(
+		'title'		 => __( 'PayPal Pro API Signature', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'textarea',
+		'description'	 => __( 'Your PayPal payments pro API signature.', 'woocommerce-paypal-pro-payment-gateway' ),
+		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
+	    )
+	);
+    }
+
+    function handle_admin_notice_msg() {
+	if ( ! $this->usesandboxapi && get_option( 'woocommerce_force_ssl_checkout' ) == 'no' && $this->enabled == 'yes' ) {
+	    $greater_than_33 = version_compare( '3.3', WC_VERSION );
+	    $wc_settings_url = admin_url( sprintf( 'admin.php?page=wc-settings&tab=%s', $greater_than_33 ? 'advanced' : 'checkout' ) );
+	    echo '<div class="error"><p>' . sprintf( __( '%s gateway requires SSL certificate for better security. The <a href="%s">force SSL option</a> is disabled on your site. Please ensure your server has a valid SSL certificate so you can enable the SSL option on your checkout page.', 'woocommerce-paypal-pro-payment-gateway' ), $this->GATEWAYNAME, $wc_settings_url ) . '</p></div>';
+	}
+    }
+
+    /*
+     * Validates the fields specified in the payment_fields() function.
+     */
+
+    public function validate_fields() {
+	global $woocommerce;
+
+	if ( ! WC_PP_PRO_Utility::is_valid_card_number( $_POST[ 'billing_credircard' ] ) ) {
+	    wc_add_notice( __( 'Credit card number you entered is invalid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
+	}
+	if ( ! WC_PP_PRO_Utility::is_valid_card_type( $_POST[ 'billing_cardtype' ] ) ) {
+	    wc_add_notice( __( 'Card type is not valid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
+	}
+	if ( ! WC_PP_PRO_Utility::is_valid_expiry( $_POST[ 'billing_expdatemonth' ], $_POST[ 'billing_expdateyear' ] ) ) {
+	    wc_add_notice( __( 'Card expiration date is not valid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
+	}
+	if ( ! WC_PP_PRO_Utility::is_valid_cvv_number( $_POST[ 'billing_ccvnumber' ] ) ) {
+	    wc_add_notice( __( 'Card verification number (CVV) is not valid. You can find this number on your credit card.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
+	}
+    }
+
+    /*
+     * Render the credit card fields on the checkout page
+     */
+
+    public function payment_fields() {
+	$payment_fields_overriden = apply_filters( 'wcpprog_before_rendering_payment_fields', '' );
+	if ( ! empty( $payment_fields_overriden ) ) {
+	    //The fields output has been overriden using custom code. So we don't need to display it anymore.
+	    return;
+	}
+
+	$billing_credircard		 = isset( $_REQUEST[ 'billing_credircard' ] ) ? esc_attr( $_REQUEST[ 'billing_credircard' ] ) : '';
+	?>
 	<p class="form-row validate-required">
 	    <?php
 	    $card_number_field_placeholder	 = __( 'Card Number', 'woocommerce-paypal-pro-payment-gateway' );
@@ -181,7 +183,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	    <select name="billing_expdateyear">
 		<?php
 		$today				 = (int) date( 'Y', time() );
-		for ( $i = 0; $i < 12; $i ++  ) {
+		for ( $i = 0; $i < 12; $i ++ ) {
 		    ?>
 	    	<option value="<?php echo $today; ?>"><?php echo $today; ?></option>
 		    <?php
@@ -192,10 +194,10 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	</p>
 	<div class="clear"></div>
 	<p class="form-row form-row-first validate-required">
-	<?php
-	$cvv_field_placeholder	 = __( 'Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway' );
-	$cvv_field_placeholder	 = apply_filters( 'wcpprog_cvv_field_placeholder', $cvv_field_placeholder );
-	?>
+	    <?php
+	    $cvv_field_placeholder	 = __( 'Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway' );
+	    $cvv_field_placeholder	 = apply_filters( 'wcpprog_cvv_field_placeholder', $cvv_field_placeholder );
+	    ?>
 	    <label><?php _e( 'Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway' ); ?> <span class="required">*</span></label>
 	    <input class="input-text" type="text" size="4" maxlength="4" name="billing_ccvnumber" value="" placeholder="<?php echo $cvv_field_placeholder; ?>" />
 	</p>
@@ -305,7 +307,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	$enteries	 = explode( '&', $response[ 'body' ] );
 
 	foreach ( $enteries as $nvp ) {
-	    $pair				 = explode( '=', $nvp );
+	    $pair					 = explode( '=', $nvp );
 	    if ( count( $pair ) > 1 )
 		$result[ urldecode( $pair[ 0 ] ) ]	 = urldecode( $pair[ 1 ] );
 	}
@@ -314,8 +316,8 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     }
 
     protected function create_paypal_request() {
-        //API Reference - https://developer.paypal.com/docs/classic/api/merchant/DoDirectPayment_API_Operation_NVP/
-        
+	//API Reference - https://developer.paypal.com/docs/classic/api/merchant/DoDirectPayment_API_Operation_NVP/
+
 	if ( $this->order AND $this->order != null ) {
 	    return array(
 		'PAYMENTACTION'	 => $this->PAYPAL_NVP_PAYMENTACTION,
@@ -327,18 +329,18 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'AMT'		 => $this->order->get_total(),
 		'FIRSTNAME'	 => $this->order->get_billing_first_name(),
 		'LASTNAME'	 => $this->order->get_billing_last_name(),
-                'STREET'         => $this->order->get_billing_address_1(),
+		'STREET'	 => $this->order->get_billing_address_1(),
 		'CITY'		 => $this->order->get_billing_city(),
 		'STATE'		 => $this->order->get_billing_state(),
 		'ZIP'		 => $this->order->get_billing_postcode(),
 		'COUNTRYCODE'	 => $this->order->get_billing_country(),
 		'SHIPTONAME'	 => $this->order->get_shipping_first_name() . " " . $this->order->get_shipping_last_name(),
 		'SHIPTOSTREET'	 => $this->order->get_shipping_address_1(),
-                'SHIPTOSTREET2'  => $this->order->get_shipping_address_2(),
+		'SHIPTOSTREET2'	 => $this->order->get_shipping_address_2(),
 		'SHIPTOCITY'	 => $this->order->get_shipping_city(),
 		'SHIPTOSTATE'	 => $this->order->get_shipping_state(),
 		'SHIPTOZIP'	 => $this->order->get_shipping_postcode(),
-		'SHIPTOCOUNTRY'	 => $this->order->get_shipping_country(),                
+		'SHIPTOCOUNTRY'	 => $this->order->get_shipping_country(),
 		'IPADDRESS'	 => $_SERVER[ 'REMOTE_ADDR' ],
 		'CREDITCARDTYPE' => $_POST[ 'billing_cardtype' ],
 		'ACCT'		 => $_POST[ 'billing_credircard' ],
