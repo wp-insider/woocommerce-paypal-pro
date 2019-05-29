@@ -51,7 +51,7 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 == Changelog ==
 
 = 2.8 =
-- Fixed WooCommerce settings URL in force SSL notice.
+- Fixed WooCommerce settings URL in force SSL notice for the new version of WooCommerce.
 
 = 2.7 =
 - The shipping address is also sent to the PayPal API during the checkout.
