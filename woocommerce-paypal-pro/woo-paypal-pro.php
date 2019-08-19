@@ -10,7 +10,7 @@
  * Requires at least: 3.0
  * License: GPL2 or Later
  * WC requires at least: 3.0
- * WC tested up to: 3.6
+ * WC tested up to: 3.7
  */
 if ( ! defined( 'ABSPATH' ) ) {
     //Exit if accessed directly
