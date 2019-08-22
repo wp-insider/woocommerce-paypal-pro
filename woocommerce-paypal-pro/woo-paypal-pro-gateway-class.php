@@ -249,7 +249,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     protected function do_order_complete_tasks() {
 	global $woocommerce;
 
-	if ( $this->order->status == 'completed' )
+	if ( $this->order->get_status() == 'completed' )
 	    return;
 
 	$this->order->payment_complete();
