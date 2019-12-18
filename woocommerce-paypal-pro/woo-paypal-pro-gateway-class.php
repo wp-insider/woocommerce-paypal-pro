@@ -24,6 +24,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	$this->id		 = 'paypalpro'; //ID needs to be ALL lowercase or it doens't work
 	$this->GATEWAYNAME	 = 'PayPal-Pro';
 	$this->method_title	 = 'PayPal-Pro';
+        $this->icon		 = apply_filters( 'wcpprog_checkout_icon', plugins_url( 'images/credit-cards.png', __FILE__ ) );
 	$this->has_fields	 = true;
 
 	$this->init_form_fields();
@@ -150,10 +151,10 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	    <?php
 	    $card_number_field_placeholder	 = __( 'Card Number', 'woocommerce-paypal-pro-payment-gateway' );
 	    $card_number_field_placeholder	 = apply_filters( 'wcpprog_card_number_field_placeholder', $card_number_field_placeholder );
-	    ?>            
+	    ?>
 	    <label><?php _e( 'Card Number', 'woocommerce-paypal-pro-payment-gateway' ); ?> <span class="required">*</span></label>
 	    <input class="input-text" type="text" size="19" maxlength="19" name="billing_credircard" value="<?php echo $billing_credircard; ?>" placeholder="<?php echo $card_number_field_placeholder; ?>" />
-	</p>         
+	</p>
 	<p class="form-row form-row-first">
 	    <label><?php _e( 'Card Type', 'woocommerce-paypal-pro-payment-gateway' ); ?> <span class="required">*</span></label>
 	    <select name="billing_cardtype" >
@@ -162,7 +163,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		<option value="Discover">Discover</option>
 		<option value="Amex">American Express</option>
 	    </select>
-	</p>       
+	</p>
 	<div class="clear"></div>
 	<p class="form-row form-row-first">
 	    <label><?php _e( 'Expiration Date', 'woocommerce-paypal-pro-payment-gateway' ); ?> <span class="required">*</span></label>
@@ -190,7 +191,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		    $today ++;
 		}
 		?>
-	    </select>            
+	    </select>
 	</p>
 	<div class="clear"></div>
 	<p class="form-row form-row-first validate-required">

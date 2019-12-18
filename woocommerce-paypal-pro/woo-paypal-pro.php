@@ -4,13 +4,13 @@
  * Plugin Name: WooCommerce PayPal Pro
  * Plugin URI: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
  * Description: Easily adds PayPal Pro payment gateway to the WooCommerce plugin so you can allow customers to checkout via credit card.
- * Version: 2.9
+ * Version: 2.9.1
  * Author: wp.insider
  * Author URI: https://wp-ecommerce.net/
  * Requires at least: 3.0
  * License: GPL2 or Later
  * WC requires at least: 3.0
- * WC tested up to: 3.7
+ * WC tested up to: 3.8
  */
 if ( ! defined( 'ABSPATH' ) ) {
     //Exit if accessed directly
@@ -23,8 +23,8 @@ if ( ! class_exists( 'WC_Paypal_Pro_Gateway_Addon' ) ) {
 
     class WC_Paypal_Pro_Gateway_Addon {
 
-	var $version		 = '2.8';
-	var $db_version	 = '1.0';
+	var $version = '2.9.1';
+	var $db_version = '1.0';
 	var $plugin_url;
 	var $plugin_path;
 

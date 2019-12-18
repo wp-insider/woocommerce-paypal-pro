@@ -4,7 +4,7 @@ Donate link: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 Tags: paypal, paypal pro, woocommerce, payment gateway, card, credit card, ecommerce, gateway, PayPal payment, paypal pro, payments pro, PayPal Pro Credit Card, dodirectpayment, express checkout,
 Requires at least: 3.3
 Tested up to: 5.3
-Stable tag: 2.9
+Stable tag: 2.9.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,10 @@ Please visit the PayPal Pro Payment Gateway for WooCommerce plugin page to view 
 https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
+
+= 2.9.1 =
+- Added a credit card icon next to the paypal checkout selection radio button.
+- Added a filter (wcpprog_checkout_icon) to allow updating/tweaking of the credit card icon image.
 
 = 2.9 =
 - Updated a call to a function for the new WooCommerce version.
