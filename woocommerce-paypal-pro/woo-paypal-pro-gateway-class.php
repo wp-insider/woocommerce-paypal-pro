@@ -320,7 +320,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	//API Reference - https://developer.paypal.com/docs/classic/api/merchant/DoDirectPayment_API_Operation_NVP/
 
 	if ( $this->order AND $this->order != null ) {
-	    return array(
+	    $query_args = array(
 		'PAYMENTACTION'	 => $this->PAYPAL_NVP_PAYMENTACTION,
 		'VERSION'	 => $this->PAYPAL_NVP_API_VERSION,
 		'METHOD'	 => $this->PAYPAL_NVP_METHOD,
@@ -352,10 +352,41 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'INVNUM'	 => $this->order->get_order_number(),
 		'BUTTONSOURCE'	 => 'TipsandTricks_SP',
 	    );
+
+	    $query_args = $this->get_additional_item_info_for_request($query_args);
+	    return $query_args;
 	}
 	return false;
     }
 
-}
+    /*
+     * Adds the additional individual item info to the query parameters
+     */
+    protected function get_additional_item_info_for_request($query_args) {
+        global $woocommerce;
+        $payment_info_params = $query_args;
+        $items = $woocommerce->cart->get_cart();
 
+        $c = 0;
+        foreach($items as $item => $values) {
+            $title_key = 'L_NAME' . $c;
+            $amt_key = 'L_AMT' . $c;
+            $qty_key = 'L_QTY' . $c;
+
+            $_product =  wc_get_product( $values['data']->get_id());
+
+            $prod_title = $_product->get_title();
+            $prod_quantity = $values['quantity'];
+            $prod_price = get_post_meta($values['product_id'] , '_price', true);
+
+            $payment_info_params[$title_key] = $prod_title;
+            $payment_info_params[$qty_key] = $prod_quantity;
+            $payment_info_params[$amt_key] = $prod_price;
+
+            $c++;
+        }
+        return $payment_info_params;
+    }
+
+}
 //End of class
