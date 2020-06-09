@@ -9,8 +9,8 @@
  * Author URI: https://wp-ecommerce.net/
  * Requires at least: 3.0
  * License: GPL2 or Later
- * WC requires at least: 3.0
- * WC tested up to: 3.8
+ * WC requires at least: 4.0
+ * WC tested up to: 4.2
  */
 if ( ! defined( 'ABSPATH' ) ) {
     //Exit if accessed directly
