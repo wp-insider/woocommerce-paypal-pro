@@ -51,7 +51,7 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 == Changelog ==
 
 = 2.9.2 =
-- Added additional item info to the request parameter that is sent to PayPal. It show more info about the item when you view the transaction in your PayPal account. Thanks to @kingpg
+- Added additional item info to the request parameter that is sent to PayPal. It will show more info about the item when you view the transaction in your PayPal account. Thanks to @kingpg
 
 = 2.9.1 =
 - Added a credit card icon next to the paypal checkout selection radio button.
