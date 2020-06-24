@@ -380,7 +380,9 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 
             $prod_title = $_product->get_title();
             $prod_quantity = $values['quantity'];
-            $prod_price = get_post_meta($values['product_id'] , '_price', true);
+
+            $prod_price = $values['data']->get_price();//Get the price from the cart (includes variation price).
+            $prod_price = round($prod_price, 2);//Round it up to 2 decimal places.
 
             $payment_info_params[$title_key] = $prod_title;
             $payment_info_params[$qty_key] = $prod_quantity;
