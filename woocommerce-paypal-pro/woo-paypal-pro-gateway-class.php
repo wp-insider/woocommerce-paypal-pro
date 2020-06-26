@@ -371,22 +371,32 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
         $items = $woocommerce->cart->get_cart();
 
         $c = 0;
-        foreach($items as $item => $values) {
+        foreach($items as $item => $item_values) {
             $title_key = 'L_NAME' . $c;
             $amt_key = 'L_AMT' . $c;
             $qty_key = 'L_QTY' . $c;
 
-            $_product =  wc_get_product( $values['data']->get_id());
+            $product = wc_get_product( $item_values['data']->get_id() );
 
-            $prod_title = $_product->get_title();
-            $prod_quantity = $values['quantity'];
+            //Get the product's name. Reference - https://docs.woocommerce.com/wc-apidocs/class-WC_Product.html#_get_name
+            //The WC_Product->get_name() will retrieve the name with variation name (if any). The WC_Product->get_title() retrieves the product's post title.
+            $prod_title = $product->get_name();
 
-            $prod_price = $values['data']->get_price();//Get the price from the cart (includes variation price).
-            $prod_price = round($prod_price, 2);//Round it up to 2 decimal places.
+            //Get the item quantity values
+            $prod_quantity = $item_values['quantity'];
+            if( empty( $prod_quantity ) ){
+                $prod_quantity = 1;// If it couldn't read the product quantity value then set it to a valid value of 1.
+            }
+
+            $prod_price = $item_values['data']->get_price();//Get the price from the cart (includes variation price).
+            $prod_price = round( $prod_price, 2 );//Round it up to 2 decimal places.
 
             $payment_info_params[$title_key] = $prod_title;
-            $payment_info_params[$qty_key] = $prod_quantity;
-            $payment_info_params[$amt_key] = $prod_price;
+
+            /* Not passing the individual item price and quantity since on some sites the dynamic pricing with other addons cuases an error. */
+            /* You can uncomment the follwoing two lines to pass this data for your site. */
+            //$payment_info_params[$qty_key] = $prod_quantity;
+            //$payment_info_params[$amt_key] = $prod_price;
 
             $c++;
         }

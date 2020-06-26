@@ -4,7 +4,7 @@ Donate link: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 Tags: paypal, paypal pro, woocommerce, payment gateway, card, credit card, ecommerce, gateway, PayPal payment, paypal pro, payments pro, PayPal Pro Credit Card, dodirectpayment, express checkout,
 Requires at least: 3.3
 Tested up to: 5.4
-Stable tag: 2.9.3
+Stable tag: 2.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,9 @@ Please visit the PayPal Pro Payment Gateway for WooCommerce plugin page to view 
 https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
+
+= 2.9.4 =
+- Removed (commented out) the individual item amount passing to the PayPal API (this was recently added after a request from a user). A few sites are having issues with it when dynamic pricing is used. It will still pass the item name.
 
 = 2.9.3 =
 - Variable product checkout error fixed. The dynamic pricing was causing an error with the additional amount parameter that the plugin now sends to PayPal.
