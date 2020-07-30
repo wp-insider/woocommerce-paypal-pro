@@ -354,7 +354,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	    );
 
             //Add some optional item info to the query param. This is not required for the transaction to be successful.
-	    $query_args = $this->get_additional_item_info_for_request($query_args);
+	    //$query_args = $this->get_additional_item_info_for_request($query_args);
 
             //Return the query args array.
 	    return $query_args;
