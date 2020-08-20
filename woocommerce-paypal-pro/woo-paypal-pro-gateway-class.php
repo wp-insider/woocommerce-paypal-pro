@@ -330,6 +330,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'AMT'		 => $this->order->get_total(),
 		'FIRSTNAME'	 => $this->order->get_billing_first_name(),
 		'LASTNAME'	 => $this->order->get_billing_last_name(),
+                'EMAIL'          => $this->order->get_billing_email(),
 		'STREET'	 => $this->order->get_billing_address_1(),
 		'CITY'		 => $this->order->get_billing_city(),
 		'STATE'		 => $this->order->get_billing_state(),
