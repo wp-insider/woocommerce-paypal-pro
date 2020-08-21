@@ -320,6 +320,9 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	//API Reference - https://developer.paypal.com/docs/nvp-soap-api/do-direct-payment-nvp/#
 
 	if ( $this->order AND $this->order != null ) {
+            $txn_description = 'WooCommerce Order ID: ' . $this->order->get_order_number();//Used as a description for the transaction.
+            $txn_description = apply_filters( 'wcpprog_request_txn_description', $txn_description );
+
 	    $query_args = array(
 		'PAYMENTACTION'	 => $this->PAYPAL_NVP_PAYMENTACTION,
 		'VERSION'	 => $this->PAYPAL_NVP_API_VERSION,
@@ -328,6 +331,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'USER'		 => $this->apiusername,
 		'SIGNATURE'	 => $this->apisigniture,
 		'AMT'		 => $this->order->get_total(),
+                'DESC'           => $txn_description,
 		'FIRSTNAME'	 => $this->order->get_billing_first_name(),
 		'LASTNAME'	 => $this->order->get_billing_last_name(),
                 'EMAIL'          => $this->order->get_billing_email(),

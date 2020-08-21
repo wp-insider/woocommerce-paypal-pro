@@ -50,6 +50,11 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
 
+= WIP 2.9.6 =
+- The "wcpprog_request_txn_description" filter can be used to override and customize the Transaction Description value.
+- The description field of the API is now populated with a value like the following:
+  WooCommerce Order ID: XXXX
+
 = 2.9.5 =
 - Added the email address value in the query parameter of the API. The billing email address will now be sent to the PayPal API.
 
