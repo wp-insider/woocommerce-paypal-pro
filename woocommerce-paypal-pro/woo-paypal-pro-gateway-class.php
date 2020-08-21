@@ -317,7 +317,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     }
 
     protected function create_paypal_request() {
-	//API Reference - https://developer.paypal.com/docs/classic/api/merchant/DoDirectPayment_API_Operation_NVP/
+	//API Reference - https://developer.paypal.com/docs/nvp-soap-api/do-direct-payment-nvp/#
 
 	if ( $this->order AND $this->order != null ) {
 	    $query_args = array(
