@@ -6,10 +6,10 @@
  * Version: 2.9.5
  * Author: wp.insider
  * Author URI: https://wp-ecommerce.net/
- * Requires at least: 4.0
+ * Requires at least: 5.0
  * License: GPL2 or Later
  * WC requires at least: 4.0
- * WC tested up to: 4.4
+ * WC tested up to: 5.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
