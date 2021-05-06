@@ -19,6 +19,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     protected $apiusername			 = '';
     protected $apipassword			 = '';
     protected $apisigniture			 = '';
+    protected $cc_last_digits = null;
 
     public function __construct() {
 	$this->id		 = 'paypalpro'; //ID needs to be ALL lowercase or it doens't work
@@ -220,6 +221,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	global $woocommerce;
 	$this->order		 = new WC_Order( $order_id );
 	$gatewayRequestData	 = $this->create_paypal_request();
+    $this->cc_last_digits = $this->get_cc_last_digits( $gatewayRequestData['ACCT'] );
 
 	if ( $gatewayRequestData AND $this->verify_paypal_payment( $gatewayRequestData ) ) {
 	    $this->do_order_complete_tasks();
@@ -252,6 +254,8 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 
 	if ( $this->order->get_status() == 'completed' )
 	    return;
+
+	update_post_meta( $this->order->get_id(), '_cc_last_digits', $this->cc_last_digits );
 
 	$this->order->payment_complete();
 	$woocommerce->cart->empty_cart();
@@ -408,5 +412,8 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
         return $payment_info_params;
     }
 
+    private function get_cc_last_digits( $cc_number ) {
+        return substr( $cc_number, -4 );
+    }
 }
 //End of class
