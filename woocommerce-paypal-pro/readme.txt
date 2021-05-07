@@ -4,7 +4,7 @@ Donate link: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 Tags: paypal, paypal pro, woocommerce, payment gateway, card, credit card, ecommerce, gateway, PayPal payment, paypal pro, payments pro, PayPal Pro Credit Card, dodirectpayment, express checkout,
 Requires at least: 5.0
 Tested up to: 5.7
-Stable tag: 2.9.5
+Stable tag: 2.9.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,10 +50,11 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
 
-= WIP 2.9.6 =
+= 2.9.6 =
 - The "wcpprog_request_txn_description" filter can be used to override and customize the Transaction Description value.
 - The description field of the API is now populated with a value like the following:
   WooCommerce Order ID: XXXX
+- The last 4 digits of the card is saved in the order post meta (for the transaction).
 
 = 2.9.5 =
 - Added the email address value in the query parameter of the API. The billing email address will now be sent to the PayPal API.

@@ -19,7 +19,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     protected $apiusername			 = '';
     protected $apipassword			 = '';
     protected $apisigniture			 = '';
-    protected $cc_last_digits = null;
+    protected $cc_last_digits = '';
 
     public function __construct() {
 	$this->id		 = 'paypalpro'; //ID needs to be ALL lowercase or it doens't work
@@ -221,7 +221,10 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	global $woocommerce;
 	$this->order		 = new WC_Order( $order_id );
 	$gatewayRequestData	 = $this->create_paypal_request();
-    $this->cc_last_digits = $this->get_cc_last_digits( $gatewayRequestData['ACCT'] );
+
+        if ( isset ( $gatewayRequestData['ACCT'] ) && !empty( $gatewayRequestData['ACCT'] ) ){
+            $this->cc_last_digits = $this->get_cc_last_digits( $gatewayRequestData['ACCT'] );
+        }
 
 	if ( $gatewayRequestData AND $this->verify_paypal_payment( $gatewayRequestData ) ) {
 	    $this->do_order_complete_tasks();
@@ -252,10 +255,15 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     protected function do_order_complete_tasks() {
 	global $woocommerce;
 
-	if ( $this->order->get_status() == 'completed' )
+	if ( $this->order->get_status() == 'completed' ){
 	    return;
+        }
 
-	update_post_meta( $this->order->get_id(), '_cc_last_digits', $this->cc_last_digits );
+        if ( isset ( $this->cc_last_digits ) && !empty ( $this->cc_last_digits )) {
+            //The value exists. Save the last 4 digits to order post meta
+            $last_digits = apply_filters( 'wcpprog_cc_last_digits_for_post_meta', $this->cc_last_digits );
+            update_post_meta( $this->order->get_id(), '_cc_last_digits', $last_digits );
+        }
 
 	$this->order->payment_complete();
 	$woocommerce->cart->empty_cart();
