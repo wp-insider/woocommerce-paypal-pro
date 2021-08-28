@@ -71,4 +71,19 @@ class WC_PP_PRO_Utility {
 	return is_numeric( $toCheck ) AND $length > 2 AND $length < 5;
     }
 
+    static function get_user_ip() {
+        $user_ip = '';
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $user_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $user_ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        if (strstr($user_ip, ',')) {
+            $ip_values = explode(',', $user_ip);
+            $user_ip = $ip_values['0'];
+        }
+
+        return apply_filters('wcpprog_get_user_ip', $user_ip);
+    }
 }

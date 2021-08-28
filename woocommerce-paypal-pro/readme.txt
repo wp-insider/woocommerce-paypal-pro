@@ -4,7 +4,7 @@ Donate link: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 Tags: paypal, paypal pro, woocommerce, payment gateway, card, credit card, ecommerce, gateway, PayPal payment, paypal pro, payments pro, PayPal Pro Credit Card, dodirectpayment, express checkout,
 Requires at least: 5.0
 Tested up to: 5.8
-Stable tag: 2.9.6
+Stable tag: 2.9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,9 @@ Please visit the PayPal Pro Payment Gateway for WooCommerce plugin page to view 
 https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
+
+= 2.9.7 =
+- Added a new filter hook (wcpprog_get_user_ip) for the IP address that gets submitted to the PayPal API. This hook can be used to override and apply your own customization for the IP Address.
 
 = 2.9.6 =
 - The "wcpprog_request_txn_description" filter can be used to override and customize the Transaction Description value.

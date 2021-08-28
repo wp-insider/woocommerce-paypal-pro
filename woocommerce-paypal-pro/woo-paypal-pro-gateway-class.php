@@ -359,7 +359,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'SHIPTOSTATE'	 => $this->order->get_shipping_state(),
 		'SHIPTOZIP'	 => $this->order->get_shipping_postcode(),
 		'SHIPTOCOUNTRY'	 => $this->order->get_shipping_country(),
-		'IPADDRESS'	 => $_SERVER[ 'REMOTE_ADDR' ],
+		'IPADDRESS'	 => WC_PP_PRO_Utility::get_user_ip(),
 		'CREDITCARDTYPE' => $_POST[ 'billing_cardtype' ],
 		'ACCT'		 => $_POST[ 'billing_credircard' ],
 		'CVV2'		 => $_POST[ 'billing_ccvnumber' ],
