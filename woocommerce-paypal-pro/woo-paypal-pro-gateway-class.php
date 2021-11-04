@@ -314,12 +314,14 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
         //Trigger an action hook with the entire response. Can be helpful for troubleshooting by usign this hook to write data to a file.
         do_action( 'wcpprog_paypal_api_error_response', $response );
 
+        /*
         //Temporary fix for the error code: "10536" (duplicate invoice ID). PayPal occassionaly gives this error code incorrectly.
         if ( isset($parsedResponse['L_ERRORCODE0']) && '10536' === $parsedResponse['L_ERRORCODE0'] ) {
             //Temporarily ignore the error: duplicate invoice ID supplied.
             $this->transactionId = isset($parsedResponse[ 'CORRELATIONID' ]) ? $parsedResponse[ 'CORRELATIONID' ] : '';
             return true;
         }
+        */
 
 	wc_add_notice( $erroMessage, 'error' );
 	return false;
