@@ -378,7 +378,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'EXPDATE'	 => sprintf( '%s%s', $_POST[ 'billing_expdatemonth' ], $_POST[ 'billing_expdateyear' ] ),
 		'STREET'	 => sprintf( '%s, %s', $_POST[ 'billing_address_1' ], $_POST[ 'billing_address_2' ] ),
 		'CURRENCYCODE'	 => get_woocommerce_currency(),
-		'INVNUM'	 => $this->order->get_order_number(),
+		'INVNUM'	 => apply_filters( 'wcpprog_invnum_woo_order_number', $this->order->get_order_number() ),
 		'BUTTONSOURCE'	 => 'TipsandTricks_SP',
 	    );
 

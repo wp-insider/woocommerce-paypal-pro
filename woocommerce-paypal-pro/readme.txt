@@ -50,6 +50,9 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
 
+= WIP =
+- Added a new filter hook "wcpprog_invnum_woo_order_number". It allows customization of the invoice number field.
+
 = 2.9.9 =
 - Reversing the temporary fix that was added for the PayPal's "Duplicate invoice ID supplied" error.
 
