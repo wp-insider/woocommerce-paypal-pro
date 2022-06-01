@@ -219,6 +219,11 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 
     public function process_payment( $order_id ) {
 	global $woocommerce;
+
+        //Setup debug logging (if needed)
+        //$logger = wc_get_logger();
+        //$context = array( 'source' => 'woo-paypal-pro-gateway' );
+
 	$this->order		 = new WC_Order( $order_id );
 	$gatewayRequestData	 = $this->create_paypal_request();
 
@@ -228,6 +233,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 
 	if ( $gatewayRequestData AND $this->verify_paypal_payment( $gatewayRequestData ) ) {
 	    $this->do_order_complete_tasks();
+            //$logger->info( "PayPal Pro Credit Card payment completed!", $context );//Debug logging
 
 	    return array(
 		'result'	 => 'success',
@@ -235,6 +241,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	    );
 	} else {
 	    $this->mark_as_failed_payment();
+            //$logger->info( "PayPal Pro Credit Card payment failed!", $context );//Debug logging
 	    wc_add_notice( __( '(Transaction Error) something is wrong.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
 	}
     }
