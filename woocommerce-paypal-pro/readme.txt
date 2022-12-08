@@ -50,6 +50,9 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
 
+= WIP 2.9.11 =
+- Updated the secure checkout admin notice message to include a link to the advanced settings menu so it is easy to find.
+
 = 2.9.10 =
 - Added a new filter hook "wcpprog_invnum_woo_order_number". It allows customization of the invoice number field.
 
