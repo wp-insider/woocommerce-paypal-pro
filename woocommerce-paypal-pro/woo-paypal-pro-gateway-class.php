@@ -296,6 +296,13 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	);
 
 	$response = wp_remote_post( $api_url, $request );
+
+        //Debug logging (if needed)
+//        $logger = wc_get_logger();
+//        $context = array( 'source' => 'woo-paypal-pro-gateway' );
+//        $respose_string = print_r($response, true);
+//        $logger->info( "PayPal Pro Response: " . $respose_string, $context );
+
 	if ( ! is_wp_error( $response ) ) {
 	    $parsedResponse = $this->parse_paypal_response( $response );
 
