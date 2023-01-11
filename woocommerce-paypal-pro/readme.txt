@@ -4,7 +4,7 @@ Donate link: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 Tags: paypal, paypal pro, woocommerce, payment gateway, card, credit card, ecommerce, gateway, PayPal payment, paypal pro, payments pro, PayPal Pro Credit Card, dodirectpayment, express checkout,
 Requires at least: 5.0
 Tested up to: 6.0
-Stable tag: 2.9.10
+Stable tag: 2.9.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -50,8 +50,9 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
 
-= WIP 2.9.11 =
+= 2.9.11 =
 - Updated the secure checkout admin notice message to include a link to the advanced settings menu so it is easy to find.
+- Added a new filter hook that will allow the transaction type to be customized to "authorization" instead of "sale/capture". The filter hook is: wcpprog_request_query_arg_paymentaction
 
 = 2.9.10 =
 - Added a new filter hook "wcpprog_invnum_woo_order_number". It allows customization of the invoice number field.

@@ -362,7 +362,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
             $txn_description = apply_filters( 'wcpprog_request_txn_description', $txn_description );
 
 	    $query_args = array(
-		'PAYMENTACTION'	 => $this->PAYPAL_NVP_PAYMENTACTION,
+		'PAYMENTACTION'	 => apply_filters( 'wcpprog_request_query_arg_paymentaction', $this->PAYPAL_NVP_PAYMENTACTION ),
 		'VERSION'	 => $this->PAYPAL_NVP_API_VERSION,
 		'METHOD'	 => $this->PAYPAL_NVP_METHOD,
 		'PWD'		 => $this->apipassword,
