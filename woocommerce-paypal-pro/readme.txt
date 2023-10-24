@@ -3,8 +3,8 @@ Contributors: wp.insider, wpecommerce
 Donate link: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 Tags: paypal, paypal pro, woocommerce, payment gateway, card, credit card, ecommerce, gateway, PayPal payment, paypal pro, payments pro, PayPal Pro Credit Card, dodirectpayment, express checkout,
 Requires at least: 5.0
-Tested up to: 6.1
-Stable tag: 2.9.11
+Tested up to: 6.3
+Stable tag: 2.9.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,6 +49,10 @@ Please visit the PayPal Pro Payment Gateway for WooCommerce plugin page to view 
 https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
+
+= 2.9.12 =
+- PHP 8.2 compatibility.
+- Added a method description for the settings menu.
 
 = 2.9.11 =
 - Updated the secure checkout admin notice message to include a link to the advanced settings menu so it is easy to find.

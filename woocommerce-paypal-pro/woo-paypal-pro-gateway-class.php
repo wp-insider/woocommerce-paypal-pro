@@ -20,6 +20,8 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     protected $apipassword			 = '';
     protected $apisigniture			 = '';
     protected $cc_last_digits = '';
+    
+    public $GATEWAYNAME = '';
 
     public function __construct() {
 	$this->id		 = 'paypalpro'; //ID needs to be ALL lowercase or it doens't work
@@ -32,6 +34,8 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	$this->init_settings();
 
 	$this->description	 = '';
+        //This description is displayed in the payment method settings menu.
+        $this->method_description = 'Accept onsite payments using debit and credit cards through the PayPal Pro gateway.';
 	$this->usesandboxapi	 = strcmp( $this->settings[ 'debug' ], 'yes' ) == 0;
 	$this->securitycodehint	 = strcmp( $this->settings[ 'securitycodehint' ], 'yes' ) == 0;
 	//If the field is populated, it will grab the value from there and will not be translated.  If it is empty, it will use the default and translate that value
