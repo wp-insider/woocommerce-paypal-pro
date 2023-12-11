@@ -111,11 +111,12 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     }
 
     function handle_admin_notice_msg() {
-	if ( ! $this->usesandboxapi && get_option( 'woocommerce_force_ssl_checkout' ) == 'no' && $this->enabled == 'yes' ) {
-	    $greater_than_33 = version_compare( '3.3', WC_VERSION );
-	    $wc_settings_url = admin_url( sprintf( 'admin.php?page=wc-settings&tab=%s', $greater_than_33 ? 'advanced' : 'checkout' ) );
-	    echo '<div class="error"><p>' . sprintf( __( '%s gateway requires SSL certificate for better security. The <a href="%s">Secure checkout</a> option is disabled in the Advanced settings menu of WooCommerce. Please ensure your site has a valid SSL certificate so you can enable the <a href="%s">Secure checkout</a> option.', 'woocommerce-paypal-pro-payment-gateway' ), $this->GATEWAYNAME, $wc_settings_url, $wc_settings_url ) . '</p></div>';
-	}
+        //This option has been removed in latest version of WooCommerce. So we are removing it.
+//	if ( ! $this->usesandboxapi && get_option( 'woocommerce_force_ssl_checkout' ) == 'no' && $this->enabled == 'yes' ) {
+//	    $greater_than_33 = version_compare( '3.3', WC_VERSION );
+//	    $wc_settings_url = admin_url( sprintf( 'admin.php?page=wc-settings&tab=%s', $greater_than_33 ? 'advanced' : 'checkout' ) );
+//	    echo '<div class="error"><p>' . sprintf( __( '%s gateway requires SSL certificate for better security. The <a href="%s">Secure checkout</a> option is disabled in the Advanced settings menu of WooCommerce. Please ensure your site has a valid SSL certificate so you can enable the <a href="%s">Secure checkout</a> option.', 'woocommerce-paypal-pro-payment-gateway' ), $this->GATEWAYNAME, $wc_settings_url, $wc_settings_url ) . '</p></div>';
+//	}
     }
 
     /*
