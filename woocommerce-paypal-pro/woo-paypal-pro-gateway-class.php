@@ -274,7 +274,11 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
         if ( isset ( $this->cc_last_digits ) && !empty ( $this->cc_last_digits )) {
             //The value exists. Save the last 4 digits to order post meta
             $last_digits = apply_filters( 'wcpprog_cc_last_digits_for_post_meta', $this->cc_last_digits );
-            update_post_meta( $this->order->get_id(), '_cc_last_digits', $last_digits );
+            //HPOS compatible saving of meta data.
+            $wc_order_id = $this->order->get_id();
+            $order = wc_get_order( $wc_order_id );
+            $order->update_meta_data( '_cc_last_digits', $last_digits );
+            $order->save();
         }
 
 	$this->order->payment_complete();
