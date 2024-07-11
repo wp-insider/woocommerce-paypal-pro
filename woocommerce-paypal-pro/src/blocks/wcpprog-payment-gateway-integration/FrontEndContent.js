@@ -2,15 +2,14 @@
  * External dependencies
  */
 import { __ } from "@wordpress/i18n";
-import { useEffect, useState, useRef } from '@wordpress/element';
-
+import { useEffect, useState } from '@wordpress/element';
+// const { TextInput } = wc.blocksCheckout;
 
 /**
  * Internal dependencies
  */
 import { getSettings } from './Utils';
 import styles from './FrontEndContent.module.css';
-import { PAYMENT_METHOD_NAME } from './Constants.js';
 
 /**
  * Card type select input component.
@@ -155,14 +154,14 @@ const FrontEndContent = (props) => {
     const cvv_field_placeholder = getSettings('cvv_field_placeholder');
     const securitycodehint = getSettings('securitycodehint');
     const cvv_hint_img = getSettings('cvv_hint_img');
-
+    
     const handleBillingCreditCardChange = (event) => {
-        const inputValue = event.target.value;
+        let inputValue = event.target.value 
         setBillingCreditCard(String(inputValue));
     };
 
     const handleBillingCvvNumberChange = (event) => {
-        const inputValue = event.target.value;
+        let inputValue = event.target.value 
         setBillingCvvNumber(String(inputValue));
     };
 
@@ -178,24 +177,19 @@ const FrontEndContent = (props) => {
         setBillingExpYear(String(expYear));
     };
 
-    const billingData = billing.billingData;
-
     useEffect(() => {
         const unsubscribe = onPaymentSetup(() => {
             // console.log("onPaymentSetup", billingCreditCard, billingCvvNumber, billingCardType, billingExpMonth, billingExpYear);
             return {
                 type: emitResponse.responseTypes.SUCCESS,
                 meta: {
-                    paymentMethodData: {       
-                        paymentMethod: PAYMENT_METHOD_NAME,
-                        paymentRequestType: 'cc',
+                    paymentMethodData: {
                         billing_credircard: billingCreditCard,
                         billing_ccvnumber: billingCvvNumber,
                         billing_cardtype: billingCardType,
                         billing_expdatemonth: billingExpMonth,
                         billing_expdateyear: billingExpYear,
                     },
-                    billingData,
                 },
             };
         });
@@ -232,6 +226,11 @@ const FrontEndContent = (props) => {
                         value={billingCreditCard}
                         onChange={handleBillingCreditCardChange}
                     />
+                    {/* <TextInput
+                        label={__('Card Number', 'woocommerce-paypal-pro-payment-gateway')}
+                        value={billingCreditCard}
+                        onChange={handleBillingCreditCardChange}
+                    /> */}
                 </div>
                 <div className={styles.formRow + " form-row"}>
                     <label>
@@ -268,6 +267,11 @@ const FrontEndContent = (props) => {
                         value={billingCvvNumber}
                         onChange={handleBillingCvvNumberChange}
                     />
+                    {/* <TextInput
+                        label={__('Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway')}
+                        value={billingCvvNumber}
+                        onChange={handleBillingCvvNumberChange}
+                    /> */}
                 </div>
                 <div className="clear"></div>
                 {

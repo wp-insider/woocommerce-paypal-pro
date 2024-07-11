@@ -31,17 +31,17 @@ module.exports = {
         'index': '/src/blocks/wcpprog-payment-gateway-integration/index.js',
     },
     output: {
-        path: path.resolve( __dirname, 'block-integration' ),
+        path: path.resolve(__dirname, 'block-integration'),
         filename: '[name].js',
     },
     plugins: [
-    	...defaultConfig.plugins.filter(
-    		(plugin) =>
-    			plugin.constructor.name !== 'DependencyExtractionWebpackPlugin'
-    	),
-    	new WooCommerceDependencyExtractionWebpackPlugin({
-    		requestToExternal,
-    		requestToHandle
-    	})
+        ...defaultConfig.plugins.filter(
+            (plugin) =>
+                plugin.constructor.name !== 'DependencyExtractionWebpackPlugin'
+        ),
+        new WooCommerceDependencyExtractionWebpackPlugin({
+            requestToExternal,
+            requestToHandle
+        })
     ]
 };

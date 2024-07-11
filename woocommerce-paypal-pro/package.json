@@ -20,8 +20,10 @@
     "@wordpress/scripts": "^28.2.0"
   },
   "dependencies": {
+    "@woocommerce/components": "^12.3.0",
     "@wordpress/components": "^28.2.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-input-mask": "^2.0.4"
   }
 }

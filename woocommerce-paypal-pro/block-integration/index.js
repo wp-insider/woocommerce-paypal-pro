@@ -32,18 +32,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Utils */ "./src/blocks/wcpprog-payment-gateway-integration/Utils.js");
 /* harmony import */ var _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FrontEndContent.module.css */ "./src/blocks/wcpprog-payment-gateway-integration/FrontEndContent.module.css");
-/* harmony import */ var _Constants_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Constants.js */ "./src/blocks/wcpprog-payment-gateway-integration/Constants.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/.pnpm/react@18.3.1/node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/.pnpm/react@18.3.1/node_modules/react/jsx-runtime.js");
 /**
  * External dependencies
  */
 
 
+// const { TextInput } = wc.blocksCheckout;
 
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -76,12 +75,12 @@ function CardTypeSelect({
     value: "Amex",
     text: "American Express"
   }];
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("select", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("select", {
     id: "billing_cardtype",
     name: "billing_cardtype",
     title: "Billing Card Type",
     onChange: handleStateChange,
-    children: options.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("option", {
+    children: options.map((item, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
       value: item.value,
       selected: state == item.value,
       children: item.text
@@ -105,12 +104,12 @@ function ExpMonthSelect({
     onBillingExpMonthChange(state);
   });
   const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("select", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("select", {
     id: "billing_expdatemonth",
     name: "billing_expdatemonth",
     title: "Billing Card Expiry Month",
     onChange: handleStateChange,
-    children: months.map((month, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("option", {
+    children: months.map((month, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
       value: index + 1,
       children: month
     }, index))
@@ -138,12 +137,12 @@ function ExpYearSelect({
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     onBillingExpYearChange(state);
   });
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("select", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("select", {
     id: "billing_expdateyear",
     name: "billing_expdateyear",
     title: "Billing Card Expiry Year",
     onChange: handleStateChange,
-    children: years.map((year, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("option", {
+    children: years.map((year, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
       value: year,
       children: year
     }, index))
@@ -176,11 +175,11 @@ const FrontEndContent = props => {
   const securitycodehint = (0,_Utils__WEBPACK_IMPORTED_MODULE_2__.getSettings)('securitycodehint');
   const cvv_hint_img = (0,_Utils__WEBPACK_IMPORTED_MODULE_2__.getSettings)('cvv_hint_img');
   const handleBillingCreditCardChange = event => {
-    const inputValue = event.target.value;
+    let inputValue = event.target.value;
     setBillingCreditCard(String(inputValue));
   };
   const handleBillingCvvNumberChange = event => {
-    const inputValue = event.target.value;
+    let inputValue = event.target.value;
     setBillingCvvNumber(String(inputValue));
   };
   const handleBillingCardTypeChange = cardType => {
@@ -192,7 +191,6 @@ const FrontEndContent = props => {
   const handleBillingExpYearChange = expYear => {
     setBillingExpYear(String(expYear));
   };
-  const billingData = billing.billingData;
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     const unsubscribe = onPaymentSetup(() => {
       // console.log("onPaymentSetup", billingCreditCard, billingCvvNumber, billingCardType, billingExpMonth, billingExpYear);
@@ -200,15 +198,12 @@ const FrontEndContent = props => {
         type: emitResponse.responseTypes.SUCCESS,
         meta: {
           paymentMethodData: {
-            paymentMethod: _Constants_js__WEBPACK_IMPORTED_MODULE_4__.PAYMENT_METHOD_NAME,
-            paymentRequestType: 'cc',
             billing_credircard: billingCreditCard,
             billing_ccvnumber: billingCvvNumber,
             billing_cardtype: billingCardType,
             billing_expdatemonth: billingExpMonth,
             billing_expdateyear: billingExpYear
-          },
-          billingData
+          }
         }
       };
     });
@@ -216,21 +211,21 @@ const FrontEndContent = props => {
       unsubscribe();
     };
   }, [emitResponse.responseTypes.ERROR, emitResponse.responseTypes.SUCCESS, onPaymentSetup, billingCreditCard, billingCvvNumber, billingCardType, billingExpMonth, billingExpYear]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("fieldset", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("fieldset", {
       id: "wc-paypalpro-cc-form",
       className: "wc-credit-card-form wc-payment-form",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__["default"].formRow + " form-row validate-required",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("label", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
           for: "billing_credircard",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Card Number', 'woocommerce-paypal-pro-payment-gateway')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             className: _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__["default"].requiredMark,
             children: " *"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
           className: "input-text",
           type: "number",
           min: "0",
@@ -241,52 +236,52 @@ const FrontEndContent = props => {
           value: billingCreditCard,
           onChange: handleBillingCreditCardChange
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__["default"].formRow + " form-row",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("label", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Card Type', 'woocommerce-paypal-pro-payment-gateway')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             className: _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__["default"].requiredMark,
             children: " *"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(CardTypeSelect, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(CardTypeSelect, {
           onBillingCardTypeChange: handleBillingCardTypeChange
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "clear"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__["default"].formRow,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("label", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Expiration Date', 'woocommerce-paypal-pro-payment-gateway')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             className: _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__["default"].requiredMark,
             children: " *"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           style: {
             display: "flex"
           },
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(ExpMonthSelect, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(ExpMonthSelect, {
             onBillingExpMonthChange: handleBillingExpMonthChange
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(ExpYearSelect, {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(ExpYearSelect, {
             onBillingExpYearChange: handleBillingExpYearChange
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "clear"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__["default"].formRow + " form-row validate-required",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("label", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
           for: "billing_ccvnumber",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway')
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             className: _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__["default"].requiredMark,
             children: " *"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
           className: "input-text",
           type: "number",
           min: "0",
@@ -297,11 +292,11 @@ const FrontEndContent = props => {
           value: billingCvvNumber,
           onChange: handleBillingCvvNumberChange
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "clear"
-      }), securitycodehint ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), securitycodehint ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: _FrontEndContent_module_css__WEBPACK_IMPORTED_MODULE_3__["default"].cvvHintWrap,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: cvv_hint_img,
           alt: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("CVV Code Hint Image", 'woocommerce-paypal-pro-payment-gateway')
         })
