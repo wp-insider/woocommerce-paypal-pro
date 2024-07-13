@@ -52,6 +52,9 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
 
+= WIP = 
+- Checkout Block support added.
+
 = 2.9.16 =
 - Updated the tags to limit it to 5. 
 

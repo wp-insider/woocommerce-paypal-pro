@@ -50,6 +50,7 @@ if ( ! class_exists( 'WC_Paypal_Pro_Gateway_Addon' ) ) {
 	    define( 'WC_PP_PRO_ADDON_VERSION', $this->version );
 	    define( 'WC_PP_PRO_ADDON_URL', $this->plugin_url() );
 	    define( 'WC_PP_PRO_ADDON_PATH', $this->plugin_path() );
+	    define( 'WC_PP_PRO_ADDON_FILE', __FILE__ );
 	}
 
 	function includes() {
@@ -105,4 +106,7 @@ if ( ! class_exists( 'WC_Paypal_Pro_Gateway_Addon' ) ) {
 }//End of class not exists check
 
 $GLOBALS[ 'WC_Paypal_Pro_Gateway_Addon' ] = new WC_Paypal_Pro_Gateway_Addon();
- 
+
+require_once WC_PP_PRO_ADDON_PATH . '/woo-paypal-pro-woocommerce-init-handler.php';
+
+new WCPPROG_WooCommerce_Init_handler();

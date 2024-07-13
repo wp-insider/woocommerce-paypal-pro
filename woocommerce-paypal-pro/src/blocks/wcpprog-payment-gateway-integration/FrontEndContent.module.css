@@ -1,0 +1,13 @@
+.paypalpro {}
+
+.formRow {
+    margin: 1rem 0;
+}
+
+.requiredMark {
+    color: red !important;
+}
+
+.cvvHintWrap {
+    margin-top: 20px;
+}

@@ -126,6 +126,11 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     public function validate_fields() {
 	global $woocommerce;
 
+		// $logger = wc_get_logger();
+		// $context = array('source' => 'woo-paypal-pro-gateway');
+		// $logger->info(print_r("Code came to validate_fields", true), $context);
+		// $logger->info(print_r($_POST, true), $context);
+
 	if ( ! WC_PP_PRO_Utility::is_valid_card_number( $_POST[ 'billing_credircard' ] ) ) {
 	    wc_add_notice( __( 'Credit card number you entered is invalid.', 'woocommerce-paypal-pro-payment-gateway' ), 'error' );
 	}
@@ -225,9 +230,10 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     public function process_payment( $order_id ) {
 	global $woocommerce;
 
-        //Setup debug logging (if needed)
-        //$logger = wc_get_logger();
-        //$context = array( 'source' => 'woo-paypal-pro-gateway' );
+		//Setup debug logging (if needed)
+		// $logger = wc_get_logger();
+		// $context = array( 'source' => 'woo-paypal-pro-gateway' );
+		// $logger->info("Code came to process_payment. Oder ID: ". $order_id, $context);
 
 	$this->order		 = new WC_Order( $order_id );
 	$gatewayRequestData	 = $this->create_paypal_request();
