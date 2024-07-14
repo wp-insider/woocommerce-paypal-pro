@@ -1,0 +1,11 @@
+.gitattributes export-ignore
+.gitmodules export-ignore
+.gitignore export-ignore
+.github export-ignore
+woocommerce-paypal-pro/src export-ignore
+woocommerce-paypal-pro/package.json export-ignore
+woocommerce-paypal-pro/package-lock.json export-ignore
+woocommerce-paypal-pro/pnpm-lock.yaml export-ignore
+woocommerce-paypal-pro/yarn-lock.yaml export-ignore
+woocommerce-paypal-pro/webpack.config.js export-ignore
+.idea/ export-ignore

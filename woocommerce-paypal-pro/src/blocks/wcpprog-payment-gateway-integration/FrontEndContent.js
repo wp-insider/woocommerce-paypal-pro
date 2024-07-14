@@ -63,7 +63,12 @@ function CardTypeSelect({ onBillingCardTypeChange }) {
  * Card expiry month select input component.
  */
 function ExpMonthSelect({ onBillingExpMonthChange }) {
-    const [state, setState] = useState(1);
+    const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+
+    const date = new Date();
+    const currentMonth = date.getMonth() + 1;
+
+    const [state, setState] = useState(currentMonth);
     const handleStateChange = (event) => {
         const inputValue = event.target.value;
         setState(inputValue);
@@ -73,11 +78,6 @@ function ExpMonthSelect({ onBillingExpMonthChange }) {
     useEffect(() => {
         onBillingExpMonthChange(state);
     })
-
-    const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-
-    const date = new Date();
-    const currentMonth = date.getMonth() + 1;
 
     return (
         <select
