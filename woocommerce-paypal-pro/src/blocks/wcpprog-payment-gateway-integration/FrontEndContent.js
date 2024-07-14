@@ -75,6 +75,10 @@ function ExpMonthSelect({ onBillingExpMonthChange }) {
     })
 
     const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+
+    const date = new Date();
+    const currentMonth = date.getMonth() + 1;
+
     return (
         <select
             id="billing_expdatemonth"
@@ -83,7 +87,7 @@ function ExpMonthSelect({ onBillingExpMonthChange }) {
             onChange={handleStateChange}
         >
             {months.map((month, index) => (
-                <option key={index} value={index + 1}>
+                <option key={index} value={index + 1} selected={currentMonth === (index+1)}>
                     {month}
                 </option>
             ))}

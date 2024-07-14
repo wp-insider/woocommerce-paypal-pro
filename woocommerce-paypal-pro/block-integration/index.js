@@ -104,6 +104,8 @@ function ExpMonthSelect({
     onBillingExpMonthChange(state);
   });
   const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+  const date = new Date();
+  const currentMonth = date.getMonth() + 1;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("select", {
     id: "billing_expdatemonth",
     name: "billing_expdatemonth",
@@ -111,6 +113,7 @@ function ExpMonthSelect({
     onChange: handleStateChange,
     children: months.map((month, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
       value: index + 1,
+      selected: currentMonth === index + 1,
       children: month
     }, index))
   });
