@@ -1,1 +1,9 @@
 /nbproject/private/
+
+.idea/
+node_modules/
+
+woocommerce-paypal-pro/block-integration/index-rtl.css
+woocommerce-paypal-pro/block-integration/index.js.map
+woocommerce-paypal-pro/block-integration/index.css.map
+*.zip
