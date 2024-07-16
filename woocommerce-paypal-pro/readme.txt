@@ -58,6 +58,9 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
 
+= WIP =
+- Minor code formatting improvement.
+
 = 3.0 = 
 - WooCommerce Checkout Block support added.
 - The addon now works with both the legacy shortcode checkout page and the new block checkout page.

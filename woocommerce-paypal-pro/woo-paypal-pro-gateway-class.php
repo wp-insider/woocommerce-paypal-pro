@@ -179,7 +179,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	<p class="form-row form-row-first">
 	    <label><?php _e( 'Expiration Date', 'woocommerce-paypal-pro-payment-gateway' ); ?> <span class="required">*</span></label>
 	    <select name="billing_expdatemonth">
-			<?php $this->get_exp_months_options(); ?>
+                <?php $this->output_exp_months_options(); ?>
 	    </select>
 	    <select name="billing_expdateyear">
 		<?php
@@ -454,14 +454,14 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
         return substr( $cc_number, -4 );
     }
 
-	private function get_exp_months_options(){
-		$months = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
-		$current_month = date('n');
+    private function output_exp_months_options(){
+        $months = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+        $current_month = date('n');
 
-		foreach($months as $key => $month) {
-			$is_selected = intval($current_month) === $key + 1 ? 'selected' : '';
-			echo '<option value="'. $key + 1 .'" '.$is_selected.'>'.$month.'</option>';
-		}
-	}
+        foreach($months as $key => $month) {
+            $is_selected = (intval($current_month) === ($key + 1)) ? 'selected' : '';
+            echo '<option value="'. ($key + 1) .'" '.$is_selected.'>'.$month.'</option>';
+        }
+    }
 }
 //End of class
