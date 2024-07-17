@@ -183,10 +183,10 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	    </select>
 	    <select name="billing_expdateyear">
 		<?php
-		$today				 = (int) date( 'Y', time() );
+		$today = (int) date( 'Y', time() );
 		for ( $i = 0; $i < 12; $i ++ ) {
 		    ?>
-	    	<option value="<?php echo $today; ?>"><?php echo $today; ?></option>
+                    <option value="<?php echo $today; ?>"><?php echo $today; ?></option>
 		    <?php
 		    $today ++;
 		}
