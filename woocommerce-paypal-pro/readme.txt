@@ -4,7 +4,7 @@ Donate link: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 Tags: paypal, paypal pro, woocommerce, woocommerce paypal pro, credit card
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 3.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -58,8 +58,9 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
 
-= WIP =
-- Minor code formatting improvement.
+= 3.0.1 =
+- Improved code formatting for better readability.
+- Enhanced compatibility with older PHP versions through minor adjustments.
 
 = 3.0 = 
 - WooCommerce Checkout Block support added.

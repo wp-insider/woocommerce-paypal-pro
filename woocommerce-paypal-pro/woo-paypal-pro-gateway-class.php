@@ -179,7 +179,14 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	<p class="form-row form-row-first">
 	    <label><?php _e( 'Expiration Date', 'woocommerce-paypal-pro-payment-gateway' ); ?> <span class="required">*</span></label>
 	    <select name="billing_expdatemonth">
-                <?php $this->output_exp_months_options(); ?>
+                <?php 
+                $months = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
+                $current_month = date('n');//This returns the current month without leading zero.
+                foreach($months as $key => $month) {
+                    $is_selected = (intval($current_month) === ($key + 1)) ? 'selected' : '';
+                    echo '<option value="'. ($key + 1) .'" '.$is_selected.'>'.$month.'</option>';
+                }
+                ?>
 	    </select>
 	    <select name="billing_expdateyear">
 		<?php
@@ -196,16 +203,16 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	<div class="clear"></div>
 	<p class="form-row form-row-first validate-required">
 	    <?php
-	    $cvv_field_placeholder	 = __( 'Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway' );
-	    $cvv_field_placeholder	 = apply_filters( 'wcpprog_cvv_field_placeholder', $cvv_field_placeholder );
+	    $cvv_field_placeholder = __( 'Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway' );
+	    $cvv_field_placeholder = apply_filters( 'wcpprog_cvv_field_placeholder', $cvv_field_placeholder );
 	    ?>
 	    <label><?php _e( 'Card Verification Number (CVV)', 'woocommerce-paypal-pro-payment-gateway' ); ?> <span class="required">*</span></label>
 	    <input class="input-text" type="text" size="4" maxlength="4" name="billing_ccvnumber" value="" placeholder="<?php echo $cvv_field_placeholder; ?>" />
 	</p>
 	<?php
 	if ( $this->securitycodehint ) {
-	    $cvv_hint_img	 = WC_PP_PRO_ADDON_URL . '/images/card-security-code-hint.png';
-	    $cvv_hint_img	 = apply_filters( 'wcpprog_cvv_image_hint_src', $cvv_hint_img );
+	    $cvv_hint_img = WC_PP_PRO_ADDON_URL . '/images/card-security-code-hint.png';
+	    $cvv_hint_img = apply_filters( 'wcpprog_cvv_image_hint_src', $cvv_hint_img );
 	    echo '<div class="wcppro-security-code-hint-section">';
 	    echo '<img src="' . $cvv_hint_img . '" />';
 	    echo '</div>';
@@ -454,14 +461,5 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
         return substr( $cc_number, -4 );
     }
 
-    private function output_exp_months_options(){
-        $months = array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12");
-        $current_month = date('n');
-
-        foreach($months as $key => $month) {
-            $is_selected = (intval($current_month) === ($key + 1)) ? 'selected' : '';
-            echo '<option value="'. ($key + 1) .'" '.$is_selected.'>'.$month.'</option>';
-        }
-    }
 }
 //End of class
