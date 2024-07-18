@@ -1,7 +1,7 @@
 === WooCommerce PayPal Pro Payment Gateway ===
 Contributors: wp.insider, wpecommerce
 Donate link: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
-Tags: paypal, paypal pro, woocommerce, woocommerce paypal pro, credit card
+Tags: paypal, paypal pro, woocommerce, woocommerce paypal, credit card
 Requires at least: 6.0
 Tested up to: 6.6
 Stable tag: 3.0.1
