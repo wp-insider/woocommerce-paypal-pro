@@ -59,7 +59,7 @@ https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 == Changelog ==
 
 = 3.0.2 =
-- Introduced a new settings option to automatically add a unique prefix to the invoice number sent to the PayPal API.
+- Introduced a new settings option to automatically add a unique prefix to the invoice number sent to the PayPal API. Thank you to @marketing1on1com for suggesting this.
 
 = 3.0.1 =
 - Improved code formatting for better readability.
