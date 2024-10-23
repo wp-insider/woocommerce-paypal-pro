@@ -4,7 +4,7 @@ Donate link: https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 Tags: paypal, paypal pro, woocommerce, woocommerce paypal, credit card
 Requires at least: 6.0
 Tested up to: 6.6
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,9 @@ Please visit the PayPal Pro Payment Gateway for WooCommerce plugin page to view 
 https://wp-ecommerce.net/paypal-pro-payment-gateway-for-woocommerce
 
 == Changelog ==
+
+= 3.0.2 =
+- Introduced a new settings option to automatically add a unique prefix to the invoice number sent to the PayPal API.
 
 = 3.0.1 =
 - Improved code formatting for better readability.

@@ -16,9 +16,10 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
     protected $transactionErrorMessage	 = null;
     protected $usesandboxapi		 = true;
     protected $securitycodehint		 = true;
-    protected $apiusername			 = '';
-    protected $apipassword			 = '';
-    protected $apisigniture			 = '';
+    protected $apiusername		 = '';
+    protected $apipassword		 = '';
+    protected $apisigniture		 = '';
+    protected $uniqueinvoiceprefix = false;
     protected $cc_last_digits = '';
     
     public $GATEWAYNAME = '';
@@ -36,13 +37,14 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	$this->description	 = '';
         //This description is displayed in the payment method settings menu.
         $this->method_description = 'Accept onsite payments using debit and credit cards through the PayPal Pro gateway.';
-	$this->usesandboxapi	 = strcmp( $this->settings[ 'debug' ], 'yes' ) == 0;
-	$this->securitycodehint	 = strcmp( $this->settings[ 'securitycodehint' ], 'yes' ) == 0;
+	$this->usesandboxapi	 = isset($this->settings[ 'securitycodehint' ]) ? (strcmp( $this->settings[ 'debug' ], 'yes' ) == 0) : false;
+	$this->securitycodehint	 = isset($this->settings[ 'securitycodehint' ]) ? (strcmp( $this->settings[ 'securitycodehint' ], 'yes' ) == 0) : false ;
 	//If the field is populated, it will grab the value from there and will not be translated.  If it is empty, it will use the default and translate that value
 	$this->title		 = strlen( $this->settings[ 'title' ] ) > 0 ? $this->settings[ 'title' ] : __( 'Credit Card Payment', 'woocommerce-paypal-pro-payment-gateway' );
-	$this->apiusername	 = $this->settings[ 'paypalapiusername' ];
-	$this->apipassword	 = $this->settings[ 'paypalapipassword' ];
-	$this->apisigniture	 = $this->settings[ 'paypalapisigniture' ];
+	$this->apiusername	 = isset($this->settings[ 'paypalapiusername' ]) ? $this->settings[ 'paypalapiusername' ] : '';
+	$this->apipassword	 = isset($this->settings[ 'paypalapipassword' ]) ? $this->settings[ 'paypalapipassword' ] : '';
+	$this->apisigniture	 = isset($this->settings[ 'paypalapisigniture' ]) ? $this->settings[ 'paypalapisigniture' ] : '';
+        $this->uniqueinvoiceprefix = isset($this->settings[ 'uniqueinvoiceprefix' ]) ? (strcmp( $this->settings[ 'uniqueinvoiceprefix' ], 'yes' ) == 0) : false;
 
 	add_filter( 'http_request_version', array( &$this, 'use_http_1_1' ) );
 	add_action( 'admin_notices', array( &$this, 'handle_admin_notice_msg' ) );
@@ -106,7 +108,13 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'type'		 => 'textarea',
 		'description'	 => __( 'Your PayPal payments pro API signature.', 'woocommerce-paypal-pro-payment-gateway' ),
 		'default'	 => __( '', 'woocommerce-paypal-pro-payment-gateway' )
-	    )
+	    ),
+	    'uniqueinvoiceprefix'	 => array(
+		'title'		 => __( 'Add Unique Invoice Prefix', 'woocommerce-paypal-pro-payment-gateway' ),
+		'type'		 => 'checkbox',
+		'label'		 => __( "Enable this option to add a unique invoice prefix, which can help avoid the 'Duplicate Invoice ID' error from PayPal. This is useful if you need to allow multiple payments for the same invoice ID.", "woocommerce-paypal-pro-payment-gateway" ),
+		'default'	 => 'no'
+	    ),            
 	);
     }
 
@@ -371,6 +379,20 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 	if ( $this->order AND $this->order != null ) {
             $txn_description = 'WooCommerce Order ID: ' . $this->order->get_order_number();//Used as a description for the transaction.
             $txn_description = apply_filters( 'wcpprog_request_txn_description', $txn_description );
+            
+            //Invoice number.
+            $inv_number = apply_filters( 'wcpprog_invnum_woo_order_number', $this->order->get_order_number() );
+            if( $this->uniqueinvoiceprefix ){
+                //The add unique invoice prefix option is enabled.
+                $uniq_prfix = uniqid();
+                //Add unique prefix to the invoice number.
+                $inv_number = $uniq_prfix . "_" . $inv_number;
+                // Debug logging (if needed)
+                //$logger = wc_get_logger();
+                //$context = array( 'source' => 'woo-paypal-pro-gateway' );
+                //$respose_string = print_r($response, true);
+                //$logger->info( "create_paypal_request: " . $inv_number, $context );                
+            }
 
 	    $query_args = array(
 		'PAYMENTACTION'	 => apply_filters( 'wcpprog_request_query_arg_paymentaction', $this->PAYPAL_NVP_PAYMENTACTION ),
@@ -403,7 +425,7 @@ class WC_PP_PRO_Gateway extends WC_Payment_Gateway {
 		'EXPDATE'	 => sprintf( '%s%s', $_POST[ 'billing_expdatemonth' ], $_POST[ 'billing_expdateyear' ] ),
 		'STREET'	 => sprintf( '%s, %s', $_POST[ 'billing_address_1' ], $_POST[ 'billing_address_2' ] ),
 		'CURRENCYCODE'	 => get_woocommerce_currency(),
-		'INVNUM'	 => apply_filters( 'wcpprog_invnum_woo_order_number', $this->order->get_order_number() ),
+		'INVNUM'	 => $inv_number,
 		'BUTTONSOURCE'	 => 'TipsandTricks_SP',
 	    );
 
