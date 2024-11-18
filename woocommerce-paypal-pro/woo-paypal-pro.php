@@ -9,7 +9,7 @@
  * Requires at least: 6.0
  * License: GPL2 or Later
  * WC requires at least: 6.0
- * WC tested up to: 9.3.4
+ * WC tested up to: 9.4.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,7 +34,7 @@ if ( ! class_exists( 'WC_Paypal_Pro_Gateway_Addon' ) ) {
 
     class WC_Paypal_Pro_Gateway_Addon {
 
-	var $version = '3.0.1';
+	var $version = '3.0.2';
 	var $db_version = '1.0';
 	var $plugin_url;
 	var $plugin_path;
